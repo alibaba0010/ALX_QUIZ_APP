@@ -2,7 +2,7 @@ import express, { json } from "express";
 import "express-async-errors";
 import cookieSession from "cookie-session";
 import cors from "cors";
-import indexRouter from "./routes/index";
+import userRouter from "./routes/userRouter";
 import dotenv from "dotenv";
 import { errorHandler } from "./errors/error";
 import { routeError } from "./errors/route.error";
@@ -19,7 +19,7 @@ app
       maxAge: 24 * 60 * 60 * 5000,
     })
   )
-  .use("/api/v1", indexRouter)
+  .use("/api/v1/user", userRouter)
 
   .use(routeError)
   .use(errorHandler);

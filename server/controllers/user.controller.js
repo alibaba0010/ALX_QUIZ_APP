@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { getPagination } from "../utils/query";
-import User from "../models/users/userDB";
+import User from "../models/userDB";
 import BadRequestError from "../errors/badRequest";
 import notFoundError from "../errors/notFound";
 import UnAuthenticatedError from "../errors/unaunthenticated";
@@ -11,7 +11,7 @@ import {
   findUser,
   requiredFields,
   checkEmail,
-} from "../models/users/userModel";
+} from "../models/userModel";
 
 class UsersController {
   // CREATE NEW USER
