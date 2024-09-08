@@ -1,8 +1,8 @@
-# Ticketing APP
+# Quiz APP
 
 ## About
 
-This ticketing web application allows creators to create an event, users to purchase tickets for events online. Users can browse available events, select desired tickets, complete payment, and receive digital tickets (through email).
+This quiz web application allows creators to create an event, users to purchase tickets for events online. Users can browse available events, select desired tickets, complete payment, and receive digital tickets (through email).
 
 ## Getting Started
 
