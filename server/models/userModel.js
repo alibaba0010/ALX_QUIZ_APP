@@ -1,7 +1,7 @@
-import BadRequestError from "../../errors/badRequest.js";
-import UnAuthorizedError from "../../errors/unauthorized.js";
-import notFoundError from "../../errors/notFound.js";
-import User from "../userDB.js";
+import BadRequestError from "../errors/badRequest.js";
+import UnAuthorizedError from "../errors/unauthorized.js";
+import notFoundError from "../errors/notFound.js";
+import User from "./userDB.js";
 
 export const comparePassword = (password, confirmPassword) => {
   if (password !== confirmPassword)
