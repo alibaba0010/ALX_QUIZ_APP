@@ -16,8 +16,27 @@ const loadUser = async () => {
 loadUser();
 const startQuizButton = document.getElementById("start-quiz");
 const startQuiz = async () => {
-  startQuizButton.style.backgroundColor = "green"; // Change button color to green
+  startQuizButton.style.backgroundColor = "#001e4d"; // Change button color to green
 
   // Redirect to quiz.html
   window.location.href = "../components/quiz.html";
 };
+
+document
+  .getElementById("log-out")
+  .addEventListener("click", async function (event) {
+    event.preventDefault();
+    const response = await fetch("http://127.0.0.1:5000/api/v1/user/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+      credentials: "include",
+    });
+    const result = await response.json();
+    // handle response
+    if (result.data) {
+      window.location.href = "../components/profile.html";
+    } else {
+      alert(result.msg);
+    }
+  });
