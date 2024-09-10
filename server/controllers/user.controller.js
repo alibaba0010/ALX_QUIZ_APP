@@ -16,18 +16,21 @@ import {
 class UsersController {
   // CREATE NEW USER
   static async httpAddNewUser(request, response) {
-    const { name, email, password, confirmPassword } = request.body;
+    const { username, email, password, confirmPassword } = request.body;
 
     comparePassword(password, confirmPassword);
 
-    requiredFields(name, email, password, confirmPassword);
+    requiredFields(username, email, password, confirmPassword);
 
-    await checkIfExists(email);
+    await checkIfExists(username, email);
 
-    const user = await User.create({ name, email, password });
-    response
-      .status(StatusCodes.CREATED)
-      .json({ name: user.name, email: user.email, id: user._id });
+    const user = await User.create({ username, email, password });
+    const data = {
+      username: user.username,
+      email: user.email,
+      id: user._id,
+    };
+    response.status(StatusCodes.CREATED).json({ data });
   }
   // FOR CREATOR
   static async httpAddNewCreator(request, response) {
@@ -56,7 +59,12 @@ class UsersController {
     request.session = {
       jwt: token,
     };
-    response.status(StatusCodes.OK).json({ id: user.id, name: user.name });
+    const data = {
+      username: user.username,
+      email: user.email,
+      id: user._id,
+    };
+    response.status(StatusCodes.OK).json({ data });
   }
 
   // UPDATE USER

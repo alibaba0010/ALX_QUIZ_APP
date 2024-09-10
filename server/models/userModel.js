@@ -12,13 +12,13 @@ export const requiredFields = (name, email, password, confirmPassword) => {
     throw new BadRequestError("Please fill all required field");
 };
 
-export const checkIfExists = async (email) => {
+export const checkIfExists = async (username, email) => {
   const checkEmailExist = await User.findOne({ email });
+  const checkUsernameExist = await User.findOne({ username });
 
-  if (checkEmailExist)
-    throw new BadRequestError("Email or name already exists");
+  if (checkEmailExist || checkUsernameExist)
+    throw new BadRequestError("Email or username already exists");
 };
-
 export const checkCreator = async (userId) => {
   const user = await User.findById(userId);
 

@@ -10,7 +10,7 @@ const exp = process.env.JWT_LIFETIME;
 
 const UserSchema = new Schema(
   {
-    name: {
+    username: {
       type: String,
       required: [true, "Please provide name"],
       minlength: 3,
@@ -56,8 +56,6 @@ UserSchema.methods.createJWT = async function () {
   );
   return signInToken;
 };
-
-
 
 // compare password when login in
 UserSchema.methods.comparePassword = async function (userPassword) {
