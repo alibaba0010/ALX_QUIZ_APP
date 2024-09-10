@@ -110,9 +110,10 @@ class UsersController {
     const { userId } = request.user;
     const user = await findUser(userId);
 
-    const { name, id, email, isCreator } = user;
+    const { username, id, email, isCreator } = user;
+    const data = { username, id, email };
 
-    return response.status(StatusCodes.OK).json({ name, id, email, isCreator });
+    return response.status(StatusCodes.OK).json({ data });
   };
 
   // LOGOUT USER

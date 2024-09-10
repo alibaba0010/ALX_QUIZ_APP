@@ -15,7 +15,7 @@ userRouter
   //update user already  logged in with his token verification
   .patch("/user", authenticateUser, verifyUser, UsersController.updateUser)
 
-  .get("/user", authenticateUser, verifyUser, UsersController.showCurrentUser);
+  .get("/", authenticateUser, verifyUser, UsersController.showCurrentUser);
 
 // .get("/logout", authenticateUser, verifyUser, UsersController.logOutUser);
 
