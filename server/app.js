@@ -8,9 +8,14 @@ import { errorHandler } from "./errors/error";
 import { routeError } from "./errors/route.error";
 dotenv.config();
 
+const corsOptions = {
+  origin: true,
+  credentials: true, //included credentials as true
+  preflightContinue: true,
+};
 const app = express();
 app
-  .use(cors())
+  .use(cors(corsOptions))
   .use(json())
   .use(
     cookieSession({

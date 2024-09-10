@@ -13,7 +13,7 @@ document
       alert("Password does not match");
     } else {
       const response = await fetch(
-        "http://127.0.0.1:5000/api/v1/auth/register",
+        "http://127.0.0.1:5000/api/v1/user/register",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
