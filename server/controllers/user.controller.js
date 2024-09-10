@@ -124,7 +124,7 @@ class UsersController {
     request.session = null;
     return response
       .status(StatusCodes.OK)
-      .json({ msg: "Successfully logged out" });
+      .json({ data: "Successfully logged out" });
   };
 }
 
