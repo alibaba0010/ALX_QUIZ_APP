@@ -4,12 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="../styles/profile.css" />
   </head>
   <body>
-    <button>Start Quiz</button>
-    <button>Log Out</button>
-    <button>Last Quiz</button>
-    <!-- Display username -->
+    <div class="header">
+      <img src="./images/profilebg.png" alt="profile" />
+      <h4 id="username">user</h4>
+      <div id="logout">
+        <button type="button">Log Out</button>
+      </div>
+    </div>
+    <div class="btns">
+      <button type="button" id="start-quiz" onclick="startQuiz()">
+        Start Quiz
+      </button>
+      <button type="button">Show last Quiz</button>
+    </div>
     <!-- Display Scores -->
+    <script src="../scripts/profile.js"></script>
   </body>
 </html>
