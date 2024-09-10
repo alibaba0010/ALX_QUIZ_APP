@@ -5,6 +5,7 @@
 }
 body {
   display: flex;
+  justify-content: start;
   align-items: center;
   background-color: beige;
   font-family: curvy;
@@ -31,12 +32,15 @@ img {
   justify-content: start;
   justify-content: start;
   align-items: center;
-  margin-top: -120px;
+  margin-top: -200px;
   /*  look into this*/
 }
 
 button {
   margin: 10px 0;
+  border: 1px solid #363434;
+  border-radius: 8px;
+  height: 30px;
 }
 #logout {
   display: flex;
