@@ -3,12 +3,17 @@ document
   .addEventListener("submit", async function (event) {
     event.preventDefault();
     const username = document.getElementById("username").value;
-    const checkEmail = document.getElementById("email").value;
+    const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirm-password").value;
-    const email = isValidEmail(checkEmail);
-    if (!email) {
+    const checkEmail = isValidEmail(email);
+    const checkPassword = isValidPassword(password);
+    if (!checkEmail) {
       alert("Invalid email");
+    } else if (!checkPassword) {
+      alert(
+        "Invalid password. Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character."
+      );
     } else if (password !== confirmPassword) {
       alert("Password does not match");
     } else {
@@ -26,11 +31,15 @@ document
           credentials: "include",
         }
       );
+
       const result = await response.json();
-      if (result.ok) {
-        window.location.href = "../components/login.html";
+      if (result.data) {
+        const check = result.data;
+        console.log("Check ", check);
+        console.log("Check 2", check.username);
+        window.location.href = "../index.html";
       } else {
-        alert(result.message);
+        alert(result.msg);
       }
     }
   });
@@ -38,4 +47,10 @@ document
 function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
+}
+
+function isValidPassword(password) {
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,21}$/;
+  return passwordRegex.test(password);
 }
