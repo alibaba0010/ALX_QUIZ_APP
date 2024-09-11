@@ -16,6 +16,7 @@ userRouter
   .patch("/user", authenticateUser, verifyUser, UsersController.updateUser)
 
   .get("/", authenticateUser, verifyUser, UsersController.showCurrentUser)
+  .get("/quiz", authenticateUser, verifyUser, UsersController.showQuiz)
 
   .get("/logout", authenticateUser, verifyUser, UsersController.logOutUser);
 

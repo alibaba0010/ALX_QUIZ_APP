@@ -1,4 +1,5 @@
 import { StatusCodes } from "http-status-codes";
+import axios from "axios";
 import { getPagination } from "../utils/query";
 import User from "../models/userDB";
 import BadRequestError from "../errors/badRequest";
@@ -12,7 +13,8 @@ import {
   requiredFields,
   checkEmail,
 } from "../models/userModel";
-
+const apiKey = process.env.QUIZ_API_KEY;
+const url = "https://quizapi.io/api/v1/questions";
 class UsersController {
   // CREATE NEW USER
   static async httpAddNewUser(request, response) {
@@ -125,6 +127,18 @@ class UsersController {
     return response
       .status(StatusCodes.OK)
       .json({ data: "Successfully logged out" });
+  };
+  static showQuiz = async (request, response) => {
+    const { userId } = request.user;
+    await findUser(userId);
+
+    const responseData = await axios.get(url, {
+      data: {
+        apiKey,
+      },
+    });
+    const { data } = responseData;
+    response.json({ data });
   };
 }
 
