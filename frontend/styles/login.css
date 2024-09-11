@@ -61,3 +61,7 @@ p {
   text-decoration: none;
   font-size: 18px;
 }
+button:active {
+  background-color: #535754;
+  transform: scale(0.95);
+}

@@ -46,3 +46,7 @@ button {
   display: flex;
   justify-content: end;
 }
+button:active {
+  background-color: #001e4d;
+  transform: scale(0.95);
+}
