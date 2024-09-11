@@ -8,7 +8,16 @@
   </head>
   <body>
     <div class="container">
-      <h1>Quiz Project</h1>
+      <div class="quiz-header">
+        <h1>Quiz Project</h1>
+        <div id="time-display">Time: <span id="time-left">00:00</span></div>
+        <div id="score-display">
+          Score: <span id="current-score">0</span>/<span id="total-score"
+            >60</span
+          >
+        </div>
+      </div>
+
       <div class="quiz-container">
         <h2 class="question-header">The Sample Question</h2>
         <div id="answer-btns">
@@ -16,6 +25,8 @@
           <button class="answer-btn">Option 2</button>
           <button class="answer-btn">Option 3</button>
           <button class="answer-btn">Option 4</button>
+          <button class="answer-btn">Option 5</button>
+          <button class="answer-btn">Option 6</button>
         </div>
         <button id="next-btn">Next</button>
       </div>

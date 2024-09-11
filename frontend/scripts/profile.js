@@ -25,7 +25,7 @@ const startQuiz = async () => {
 
 const logOut = document.getElementById("log-out");
 logOut.addEventListener("click", async function (event) {
-  logOut.style.backgroundColor = "#"; // Change button color to green
+  logOut.style.backgroundColor = "#001e4d"; // Change button color to green
 
   event.preventDefault();
   const response = await fetch("http://127.0.0.1:5000/api/v1/user/logout", {
