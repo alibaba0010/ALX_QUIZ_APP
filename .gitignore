@@ -130,3 +130,4 @@ dist
 .pnp.*
 server/index.d.ts
 frontend/.vscode/settings.json
+frontend/.hintrc
