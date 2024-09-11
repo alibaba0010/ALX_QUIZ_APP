@@ -12,6 +12,7 @@ document
   .getElementById("login-form")
   .addEventListener("submit", async function (event) {
     event.preventDefault();
+
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
     const checkEmail = isValidEmail(email);

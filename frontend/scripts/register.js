@@ -2,6 +2,7 @@ document
   .getElementById("register-form")
   .addEventListener("submit", async function (event) {
     event.preventDefault();
+    logOut.style.backgroundColor = "#001e4d";
     const username = document.getElementById("username").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
