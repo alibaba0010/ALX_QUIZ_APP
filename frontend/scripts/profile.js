@@ -16,12 +16,13 @@ const loadUser = async () => {
 };
 loadUser();
 const startQuizButton = document.getElementById("start-quiz");
-const startQuiz = async () => {
+startQuizButton.addEventListener("click", async function (event) {
+  event.preventDefault();
   startQuizButton.style.backgroundColor = "#001e4d"; // Change button color to green
 
   // Redirect to quiz.html
   window.location.href = "../components/quiz.html";
-};
+});
 
 const logOut = document.getElementById("log-out");
 logOut.addEventListener("click", async function (event) {
