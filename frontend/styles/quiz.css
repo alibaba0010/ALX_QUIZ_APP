@@ -87,3 +87,7 @@ body {
 .quiz-header {
   font-size: 20px;
 }
+#multiple {
+  margin: 5px 0px;
+  display: none;
+}

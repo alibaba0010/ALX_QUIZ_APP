@@ -64,12 +64,13 @@ function convertToMinutesAndSeconds(totalSeconds) {
 
   return `${formattedMinutes}:${formattedSeconds}`;
 }
-function loadQuestion(data) {
+async function loadQuestion(data) {
   // resetState();
-  const currentQuestion = data[currentQuestionIndex];
+  const currentQuestion = await data[currentQuestionIndex];
   let questionNo = currentQuestionIndex + 1;
   const answers = currentQuestion.answers;
   for (let i = 0; i < questionElement.length; i++) {
+    checkMultipleChoice(data);
     questionElement[i].innerHTML = questionNo + ". " + currentQuestion.question;
   }
   answersElement.innerHTML = "";
@@ -88,7 +89,17 @@ function loadQuestion(data) {
   }
 }
 
-function checkMultipleChoice() {}
+function checkMultipleChoice(data) {
+  const currentQuestion = data[currentQuestionIndex];
+  const currentChoice = currentQuestion.multiple_correct_answers;
+  if (currentChoice === "false") {
+    // change to true
+    const multiple_correct_answer = document.getElementById("multiple");
+    multiple_correct_answer.style.display = "block";
+  } else {
+    console.log("World");
+  }
+}
 function storeQuizQuestion(userId, result) {
   try {
     // Check if local storage is available
