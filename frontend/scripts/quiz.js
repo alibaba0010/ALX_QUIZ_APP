@@ -2,6 +2,9 @@ let currentQuestionIndex = 0;
 let score = document.getElementById("current-score");
 const totalScore = document.getElementById("total-score");
 // console.log("Current Score: " + score.innerHTML);
+const questionElement = document.getElementsByClassName("question-header");
+const answersElement = document.getElementById("answer-btns");
+
 const loadQuiz = async () => {
   const response = await fetch("http://127.0.0.1:5000/api/v1/user/quiz", {
     method: "GET",
@@ -10,16 +13,16 @@ const loadQuiz = async () => {
   });
   const result = await response.json();
   if (result.data) {
-    const datalength = result.data.length;
-    totalScore.innerHTML = datalength;
+    const { data } = result;
+    totalScore.innerHTML = data.length;
     //  showTime(datalength);
+    loadQuestion(data);
     // window.location.href = "../components/profile.html";
   } else {
     window.location.href = "../index.html";
     alert(result.msg);
   }
 };
-loadQuiz();
 
 function showTime(datalength) {
   let timeLeft = Math.round(datalength * 0.025) * 60; // Convert to seconds
@@ -57,3 +60,28 @@ function convertToMinutesAndSeconds(totalSeconds) {
 
   return `${formattedMinutes}:${formattedSeconds}`;
 }
+function loadQuestion(data) {
+  // resetState();
+  const currentQuestion = data[currentQuestionIndex];
+  let questionNo = currentQuestionIndex + 1;
+  const answers = currentQuestion.answers;
+  for (let i = 0; i < questionElement.length; i++) {
+    questionElement[i].innerHTML = questionNo + ". " + currentQuestion.question;
+  }
+  answersElement.innerHTML = "";
+  for (const key in answers) {
+    const answerButton = document.createElement("button");
+
+    if (answers.hasOwnProperty(key) && answers[key] !== null) {
+      const value = answers[key];
+      answerButton.innerHTML = value;
+      answerButton.classList.add("answer-btn");
+      answersElement.appendChild(answerButton);
+      if (value == null) {
+        answersElement.display = "none";
+      }
+    }
+  }
+}
+
+function checkMultipleChoice() {}
