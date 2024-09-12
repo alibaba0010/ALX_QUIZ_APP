@@ -138,7 +138,7 @@ class UsersController {
       },
     });
     const { data } = responseData;
-    response.json({ data });
+    response.json({ userId, data });
   };
 }
 
