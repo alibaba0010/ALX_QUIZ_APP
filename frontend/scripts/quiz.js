@@ -86,19 +86,21 @@ async function loadQuestion(data) {
         answersElement.display = "none";
       }
     }
-    const { correct_answers } = currentQuestion;
-    const correctAnswers = [];
-    for (const [key, value] of Object.entries(correct_answers)) {
-      if (value === "true") {
-        correctAnswers.push(key);
-      }
-    }
-    // if (option.correctAnswer) {
-    //   answerButton.dataset.correctAnswer = option.correctAnswer;
-    //   // console.log(answerButton.dataset.correctAnswer);
-    // }
-    // answerButton.addEventListener("click", selectAnswer);
   }
+  console.log("Current Question: ", currentQuestion);
+  const { correct_answers } = currentQuestion;
+  const correctAnswers = [];
+  for (const [key, value] of Object.entries(correct_answers)) {
+    if (value === "true") {
+      correctAnswers.push(key);
+    }
+  }
+  console.log("correctAnswers", correctAnswers);
+  // if (option.correctAnswer) {
+  //   answerButton.dataset.correctAnswer = option.correctAnswer;
+  //   // console.log(answerButton.dataset.correctAnswer);
+  // }
+  // answerButton.addEventListener("click", selectAnswer);
 }
 
 function checkMultipleChoice(data) {
