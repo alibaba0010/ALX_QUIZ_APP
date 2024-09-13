@@ -74,9 +74,8 @@ async function loadQuestion(data) {
     questionElement[i].innerHTML = questionNo + ". " + currentQuestion.question;
   }
   answersElement.innerHTML = "";
+  const answerButton = document.createElement("button");
   for (const key in answers) {
-    const answerButton = document.createElement("button");
-
     if (answers.hasOwnProperty(key) && answers[key] !== null) {
       const value = answers[key];
       answerButton.innerHTML = value;
@@ -93,6 +92,7 @@ async function loadQuestion(data) {
   for (const [key, value] of Object.entries(correct_answers)) {
     if (value === "true") {
       correctAnswers.push(key);
+      answerButton.dataset.correctAnswer = key;
     }
   }
   console.log("correctAnswers", correctAnswers);
@@ -100,9 +100,45 @@ async function loadQuestion(data) {
   //   answerButton.dataset.correctAnswer = option.correctAnswer;
   //   // console.log(answerButton.dataset.correctAnswer);
   // }
-  // answerButton.addEventListener("click", selectAnswer);
+  answerButton.addEventListener("click", selectAnswer);
 }
 
+function selectAnswer(event) {
+  const selectedAnswer = event.target;
+  console.log("selectedAnswer", selectedAnswer);
+  // const correctAnswer = selectedAnswer.dataset.correctAnswer === "true"; // needed to add "true" cos if not true it returns undefined
+  // // console.log("Correct Answer: ", correctAnswer);
+  // if (correctAnswer) {
+  //   score++;
+  //   selectedAnswer.classList.add("correctAnswer");
+  //   // console.log("Correct Answer: ", correctAnswer);
+  //   // console.log("Score: ", score);
+  // } else {
+  //   selectedAnswer.classList.add("wrongAnswer");
+  //   // console.log("Wrong Answer: ", correctAnswer);
+  //   // console.log("Score: ", score);
+  // }
+  // Array.from(answersElement.children).forEach((answer) => {
+  //   if (answersElement.dataset.correctAnswer === "true") {
+  //     answer.classList.add("correctAnswer");
+  //   }
+  //   answer.disabled = true;
+  // });
+  // submitButton.style.display = "block";
+  // submitButton.style.display = "inline";
+  // selectedAnswer.classList.add("correct");
+  // setTimeout(() => {
+  //   selectedAnswer.classList.remove("correct");
+  // }, 1000);
+  // console.log("Current Question Index: ", currentQuestionIndex);
+  // console.log("Quiz Data Length: ", quizData.length);
+  if (currentQuestionIndex < quizData.length) {
+    submitButton.innerHTML = "Next";
+  } else {
+    submitButton.innerHTML = "Finish";
+    // Display score
+  }
+}
 function checkMultipleChoice(data) {
   const currentQuestion = data[currentQuestionIndex];
   const currentChoice = currentQuestion.multiple_correct_answers;
