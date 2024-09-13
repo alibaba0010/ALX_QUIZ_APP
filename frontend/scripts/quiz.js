@@ -68,7 +68,7 @@ async function loadQuestion(data) {
   // resetState();
   const currentQuestion = await data[currentQuestionIndex];
   let questionNo = currentQuestionIndex + 1;
-  const answers = currentQuestion.answers;
+  const { answers } = currentQuestion;
   for (let i = 0; i < questionElement.length; i++) {
     checkMultipleChoice(data);
     questionElement[i].innerHTML = questionNo + ". " + currentQuestion.question;
@@ -86,6 +86,18 @@ async function loadQuestion(data) {
         answersElement.display = "none";
       }
     }
+    const { correct_answers } = currentQuestion;
+    const correctAnswers = [];
+    for (const [key, value] of Object.entries(correct_answers)) {
+      if (value === "true") {
+        correctAnswers.push(key);
+      }
+    }
+    // if (option.correctAnswer) {
+    //   answerButton.dataset.correctAnswer = option.correctAnswer;
+    //   // console.log(answerButton.dataset.correctAnswer);
+    // }
+    // answerButton.addEventListener("click", selectAnswer);
   }
 }
 
@@ -96,8 +108,6 @@ function checkMultipleChoice(data) {
     // change to true
     const multiple_correct_answer = document.getElementById("multiple");
     multiple_correct_answer.style.display = "block";
-  } else {
-    console.log("World");
   }
 }
 function storeQuizQuestion(userId, result) {
