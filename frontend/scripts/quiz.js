@@ -102,11 +102,9 @@ async function loadQuestion(data) {
 let currentScore = 0;
 function selectAnswer(event) {
   const selectedButton = event.target;
-  const selectedKey = selectedButton.dataset.questionKey;
-  console.log("SelectAnswer: " + selectedKey);
+  const { questionKey } = selectedButton.dataset;
   const correctAnswers = selectedButton.dataset.correctAnswers.split(",");
-  console.log("CorrectAnswer: " + correctAnswers);
-  if (correctAnswers.includes(`${selectedKey}_correct`)) {
+  if (correctAnswers.includes(`${questionKey}_correct`)) {
     // Calculate score increment
     const scoreIncrement = 1 / correctAnswers.length;
 
@@ -115,18 +113,11 @@ function selectAnswer(event) {
 
     // Update the score display
     // updateScoreDisplay();
-
-    console.log(
-      `Correct! Button ${selectedKey.toUpperCase()} is a right answer.`
-    );
-    console.log(
-      `Score increased by ${scoreIncrement.toFixed(
-        2
-      )}. New total: ${currentScore.toFixed(2)}`
-    );
+    score.innerHTML = currentScore;
+    console.log(score.innerHTML);
 
     // Add visual feedback for correct answer
-    selectedButton.classList.add("correct-answer");
+    // selectedButton.classList.add("correct-answer");
   } else {
     console.log(`Sorry, button ${selectedKey.toUpperCase()} is not correct.`);
     // Add visual feedback for incorrect answer
@@ -140,7 +131,6 @@ function selectAnswer(event) {
 //   const { questionKey } = selectedAnswer.dataset;
 //   const correctAnswer = correctAnswers.includes(`${questionKey}_correct`);
 //   // const correctAnswer = correctAnswers.includes(questionKey);
-//   let currentScore = 0;
 //   if (correctAnswer) {
 //     const scoreIncrement = 1 / correctAnswers.length;
 //     console.log("Score increment: " + scoreIncrement);
