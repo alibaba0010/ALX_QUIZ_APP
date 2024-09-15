@@ -3,6 +3,8 @@ let score = document.getElementById("current-score");
 const totalScore = document.getElementById("total-score");
 const questionElement = document.getElementsByClassName("question-header");
 const answersElement = document.getElementById("answer-btns");
+const multiple_correct_answer = document.getElementById("multiple");
+const submitButton = document.getElementById("next-btn");
 
 const loadQuiz = async () => {
   const response = await fetch("http://127.0.0.1:5000/api/v1/user/quiz", {
@@ -90,107 +92,116 @@ async function loadQuestion(data) {
     const correctAnswers = [];
     for (const [key, value] of Object.entries(correct_answers)) {
       if (value === "false") {
-        // change to true
+        // change to true false
         correctAnswers.push(key);
       }
     }
     answerButton.dataset.correctAnswers = correctAnswers;
-    answerButton.addEventListener("click", selectAnswer);
+    answerButton.addEventListener("click", (event) =>
+      selectAnswer(event, data)
+    );
   }
 }
 
 let currentScore = 0;
-function selectAnswer(event) {
+let previouslySelectedButton = null;
+function selectAnswer(event, data) {
   const selectedButton = event.target;
   const { questionKey } = selectedButton.dataset;
   const correctAnswers = selectedButton.dataset.correctAnswers.split(",");
-  if (correctAnswers.includes(`${questionKey}_correct`)) {
-    // Calculate score increment
-    const scoreIncrement = 1 / correctAnswers.length;
+  const isCorrect = correctAnswers.includes(`${questionKey}_correct`);
 
-    // Increment the score
-    currentScore += scoreIncrement;
-
-    // Update the score display
-    // updateScoreDisplay();
-    score.innerHTML = currentScore;
-    console.log(score.innerHTML);
-
-    // Add visual feedback for correct answer
-    // selectedButton.classList.add("correct-answer");
+  if (selectedButton.classList.contains("selected")) {
+    selectedButton.classList.remove("selected");
+    if (isCorrect) {
+      const scoreIncrement = 1 / correctAnswers.length;
+      currentScore -= scoreIncrement;
+      score.innerHTML = currentScore.toFixed(2); //used for questions
+      // selectedButton.classList.remove("correct-answer");
+    }
   } else {
-    console.log(`Sorry, button ${selectedKey.toUpperCase()} is not correct.`);
-    // Add visual feedback for incorrect answer
-    selectedButton.classList.add("incorrect-answer");
+    selectedButton.classList.add("selected");
+    if (multiple_correct_answer.style.display !== "block") {
+      // Single answer mode
+      if (
+        previouslySelectedButton &&
+        previouslySelectedButton !== selectedButton
+      ) {
+        // Deselect the previous button
+        previouslySelectedButton.classList.remove("selected");
+
+        // If the previous button was correct, subtract its score
+        if (
+          correctAnswers.includes(
+            `${previouslySelectedButton.dataset.questionKey}_correct`
+          )
+        ) {
+          const previousScoreIncrement = 1 / correctAnswers.length;
+          currentScore -= previousScoreIncrement;
+          score.innerHTML = currentScore.toFixed(2); //used for questions
+        }
+      }
+
+      // Remove selection from all buttons
+      document.querySelectorAll(".answer-button").forEach((button) => {
+        button.classList.remove("selected");
+      });
+
+      // Select the current button
+      selectedButton.classList.add("selected");
+      previouslySelectedButton = selectedButton;
+    }
+    if (correctAnswers.includes(`${questionKey}_correct`)) {
+      // Calculate score increment
+      // Increment the score
+    }
+    if (isCorrect) {
+      // Calculate score increment
+      const scoreIncrement = 1 / correctAnswers.length;
+
+      // Increment the score
+      currentScore += scoreIncrement;
+      // Update the score display
+      // updateScoreDisplay();
+      score.innerHTML = currentScore.toFixed(2); //used for questions
+    }
+  }
+  submitButton.style.display = "block";
+  if (currentQuestionIndex < data.length) {
+    submitButton.innerHTML = "Next";
+  } else {
+    submitButton.innerHTML = "Finish";
+    // Display score
+  }
+  submitButton.addEventListener("click", (event) => nextButton(event, data));
+}
+function nextButton(event, data) {
+  // Check answer and update score
+  if (currentQuestionIndex < data.length) {
+    nextQuestion(data);
+  } else {
+    // Quiz finished
+    // startQuiz(data);
+  }
+}
+// submitButton.addEventListener("click", (data) => {
+
+// });
+
+function nextQuestion(data) {
+  currentQuestionIndex++;
+  if (currentQuestionIndex < data.length) {
+    loadQuestion(data);
+  } else {
+    // showScore();
   }
 }
 
-// function selectAnswer(event) {
-//   const selectedAnswer = event.target;
-//   const correctAnswers = selectedAnswer.dataset.correctAnswers.split(",");
-//   const { questionKey } = selectedAnswer.dataset;
-//   const correctAnswer = correctAnswers.includes(`${questionKey}_correct`);
-//   // const correctAnswer = correctAnswers.includes(questionKey);
-//   if (correctAnswer) {
-//     const scoreIncrement = 1 / correctAnswers.length;
-//     console.log("Score increment: " + scoreIncrement);
-//     currentScore += scoreIncrement;
-//     console.log("Total Score: " + currentScore);
-//   }
-//   console.log("Total Score out: " + currentScore);
-
-//   // // Function to disable all answer buttons
-//   // function disableAllButtons() {
-//   //   const buttons = document.querySelectorAll("#answers-container button");
-//   //   buttons.forEach((button) => {
-//   //     button.disabled = true;
-//   //   });
-//   // }
-
-//   // // Add event listeners to answer buttons
-//   // document.querySelectorAll('#answers-container button').forEach(button => {
-//   //   button.addEventListener('click', selectAnswer);
-//   // });
-
-//   // const correctAnswer = selectedAnswer.dataset.correctAnswer === "true"; // needed to add "true" cos if not true it returns undefined
-//   // // console.log("Correct Answer: ", correctAnswer);
-//   // if (correctAnswer) {
-//   //   score++;
-//   //   selectedAnswer.classList.add("correctAnswer");
-//   //   // console.log("Correct Answer: ", correctAnswer);
-//   //   // console.log("Score: ", score);
-//   // } else {
-//   //   selectedAnswer.classList.add("wrongAnswer");
-//   //   // console.log("Wrong Answer: ", correctAnswer);
-//   //   // console.log("Score: ", score);
-//   // }
-//   // Array.from(answersElement.children).forEach((answer) => {
-//   //   if (answersElement.dataset.correctAnswer === "true") {
-//   //     answer.classList.add("correctAnswer");
-//   //   }
-//   //   answer.disabled = true;
-//   // });
-//   // submitButton.style.display = "block";
-//   // submitButton.style.display = "inline";
-//   // selectedAnswer.classList.add("correct");
-//   // setTimeout(() => {
-//   //   selectedAnswer.classList.remove("correct");
-//   // }, 1000);
-//   // console.log("Current Question Index: ", currentQuestionIndex);
-//   // console.log("Quiz Data Length: ", quizData.length);
-//   // if (currentQuestionIndex < quizData.length) {
-//   //   submitButton.innerHTML = "Next";
-//   // } else {
-//   //   submitButton.innerHTML = "Finish";
-//   //   // Display score
-//   // }
-// }
 function checkMultipleChoice(data) {
   const currentQuestion = data[currentQuestionIndex];
   const currentChoice = currentQuestion.multiple_correct_answers;
   if (currentChoice === "false") {
-    // change to true
-    const multiple_correct_answer = document.getElementById("multiple");
+    // change to true false
     multiple_correct_answer.style.display = "block";
   }
 }
