@@ -12,12 +12,22 @@ userRouter
   .post("/register", UsersController.httpAddNewUser)
   // .post("/creator/register", UsersController.httpAddNewCreator)
   .post("/login", UsersController.httpLogin)
-  //update user already  logged in with his token verification
-  .patch("/user", authenticateUser, verifyUser, UsersController.updateUser)
-
   .get("/", authenticateUser, verifyUser, UsersController.showCurrentUser)
   .get("/quiz", authenticateUser, verifyUser, UsersController.showQuiz)
 
-  .get("/logout", authenticateUser, verifyUser, UsersController.logOutUser);
+  .get("/logout", authenticateUser, verifyUser, UsersController.logOutUser)
+  .post(
+    "/questions",
+    authenticateUser,
+    verifyUser,
+    UsersController.saveQuestions
+  )
+  // dealing with displaying all questions
+  .get(
+    "/question",
+    authenticateUser,
+    verifyUser,
+    UsersController.showQuestions
+  );
 
 export default userRouter;
