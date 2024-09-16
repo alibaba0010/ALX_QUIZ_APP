@@ -69,44 +69,6 @@ class UsersController {
     response.status(StatusCodes.OK).json({ data });
   }
 
-  // UPDATE USER
-  static async updateUser(request, response) {
-    const { name } = request.body;
-    const { userId } = request.user;
-
-    if (!name) throw new BadRequestError("Name field cannot be empty");
-
-    const user = await User.findById(userId);
-    if (!user) throw new notFoundError("User not Found");
-
-    user.name = name;
-
-    const updatedUser = await user.save();
-
-    const { email, id } = updatedUser;
-
-    response.status(StatusCodes.OK).json({ name: updatedUser.name, email, id });
-  }
-
-  // GET ALL USERS
-  static async getAllUserByCreator(request, response) {
-    const { userId } = request.user;
-
-    await checkCreator(userId);
-
-    const { skip, limit } = getPagination(request.query);
-    const users = await User.find({}, { __v: 0, password: 0 })
-      .sort("createdAt")
-      .skip(skip)
-      .limit(limit);
-
-    if (!users) throw new notFoundError("Unable to get Users");
-
-    return response
-      .status(StatusCodes.OK)
-      .json({ users, nbHits: users.length });
-  }
-
   // SHOW CURRENT USER
   static showCurrentUser = async (request, response) => {
     const { userId } = request.user;
@@ -140,6 +102,8 @@ class UsersController {
     const { data } = responseData;
     response.json({ userId, data });
   };
+  static saveQuestions = async (request, response) => {};
+  static showQuestions = async (request, response) => {};
 }
 
 export default UsersController;
