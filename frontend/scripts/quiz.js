@@ -273,7 +273,10 @@ function showScore() {
     clearLocalStorage();
   }
   submitButton.innerHTML = "Start Quiz Again";
-  submitButton.style.display = "block";
+  submitButton.style.display = "block
+  submitButton.addEventListener("click", function () {
+    window.location.href = "../components/profile.html";
+  });
 }
 function updateURLWithQuestionId(questionId) {
   // Get the current URL
@@ -300,4 +303,7 @@ function clearLocalStorage() {
     console.error("Error clearing localStorage:", error);
     return false;
   }
+}
+function saveQuizQuestion(){}
+function showPastQuestions(){
 }
