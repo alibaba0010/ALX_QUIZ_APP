@@ -7,7 +7,7 @@ const QuestionSchema = new Schema({
     {
       questions: { type: String },
       answers: { type: [String] },
-      correct_answer: { type: [String] },
+      correct_answers: { type: [String] },
       multiple_choice: { type: Boolean },
     },
   ],
