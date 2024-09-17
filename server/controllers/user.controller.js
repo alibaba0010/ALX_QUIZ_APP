@@ -105,8 +105,29 @@ class UsersController {
   static saveQuestions = async (request, response) => {};
   static showQuestions = async (request, response) => {};
 
-  static updateUserScore = async (request, response) => {};
-  static showUserScore = async (request, response) => {};
+  static updateUserScore = async (request, response) => {
+    const { userId } = req.user;
+    const { score } = req.body;
+
+    if (!score) throw new BadRequestError("Score field cannot be empty");
+
+    const user = await findUser(userId);
+    user.score = score;
+
+    const updatedUser = await user.save();
+
+    const { email, id } = updatedUser;
+
+    res.status(StatusCodes.OK).json({ score: updatedUser.score });
+  };
+  static showUserScore = async (request, response) => {
+    const { userId } = request.user;
+    const user = await findUser(userId);
+
+    const { score } = user;
+
+    res.status(StatusCodes.OK).json({ score });
+  };
 }
 
 export default UsersController;
