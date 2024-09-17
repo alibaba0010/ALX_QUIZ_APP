@@ -5,10 +5,10 @@ const QuestionSchema = new Schema({
   user: { type: Types.ObjectId, ref: "User", required: true },
   data: [
     {
-      questions: { type: String },
+      question: { type: String },
       answers: { type: [String] },
       correct_answers: { type: [String] },
-      multiple_choice: { type: Boolean },
+      multiple_correct_answers: { type: Boolean },
     },
   ],
 });
