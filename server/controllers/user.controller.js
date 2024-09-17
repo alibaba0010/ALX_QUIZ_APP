@@ -104,7 +104,8 @@ class UsersController {
   };
   static saveQuestions = async (request, response) => {
     const { userId } = request.user;
-    const { questions } = request.body;
+    const { questions, answers, correct_answers, multiple_choice } =
+      request.body;
 
     if (!questions || questions.length === 0)
       throw new BadRequestError("Questions field cannot be empty");
