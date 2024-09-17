@@ -70,6 +70,8 @@ function convertToMinutesAndSeconds(totalSeconds) {
   return `${formattedMinutes}:${formattedSeconds}`;
 }
 async function loadQuestion() {
+  console.log(quizData);
+
   resetState();
   const currentQuestion = await quizData[0][currentQuestionIndex];
   updateURLWithQuestionId(currentQuestion.id);
@@ -273,7 +275,7 @@ function showScore() {
     clearLocalStorage();
   }
   submitButton.innerHTML = "Start Quiz Again";
-  submitButton.style.display = "block
+  submitButton.style.display = "block";
   submitButton.addEventListener("click", function () {
     window.location.href = "../components/profile.html";
   });
@@ -304,6 +306,5 @@ function clearLocalStorage() {
     return false;
   }
 }
-function saveQuizQuestion(){}
-function showPastQuestions(){
-}
+function saveQuizQuestion() {}
+function showPastQuestions() {}
