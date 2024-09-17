@@ -102,7 +102,22 @@ class UsersController {
     const { data } = responseData;
     response.json({ userId, data });
   };
-  static saveQuestions = async (request, response) => {};
+  static saveQuestions = async (request, response) => {
+    const { userId } = request.user;
+    const { questions } = request.body;
+
+    if (!questions || questions.length === 0)
+      throw new BadRequestError("Questions field cannot be empty");
+
+    const user = await findUser(userId);
+    user.questions = questions;
+
+    const updatedUser = await user.save();
+
+    const { email, id } = updatedUser;
+
+    response.status(StatusCodes.OK).json({ questions: updatedUser.questions });
+  };
   static showQuestions = async (request, response) => {};
 
   static updateUserScore = async (request, response) => {
