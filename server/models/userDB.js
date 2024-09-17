@@ -30,6 +30,10 @@ const UserSchema = new Schema(
       required: [true, "Please provide password"],
       minlength: [6, "Password must be up to 6 characters"],
     },
+    score: {
+      type: Number,
+      default: 0,
+    },
     isCreator: {
       type: Boolean,
       default: false,
