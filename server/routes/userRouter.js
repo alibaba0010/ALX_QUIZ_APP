@@ -23,11 +23,19 @@ userRouter
     UsersController.saveQuestions
   )
   // dealing with displaying all questions
+  .get("/question", authenticateUser, verifyUser, UsersController.showQuestions)
+  .patch(
+    "/questions",
+    authenticateUser,
+    verifyUser,
+    UsersController.updateUserScore
+  )
+  // dealing with displaying all questions
   .get(
     "/question",
     authenticateUser,
     verifyUser,
-    UsersController.showQuestions
+    UsersController.showUserScore
   );
 
 export default userRouter;

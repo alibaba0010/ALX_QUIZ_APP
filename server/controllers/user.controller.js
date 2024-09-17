@@ -104,6 +104,9 @@ class UsersController {
   };
   static saveQuestions = async (request, response) => {};
   static showQuestions = async (request, response) => {};
+
+  static updateUserScore = async (request, response) => {};
+  static showUserScore = async (request, response) => {};
 }
 
 export default UsersController;
