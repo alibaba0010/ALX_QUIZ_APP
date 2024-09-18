@@ -121,12 +121,15 @@ class UsersController {
   static showQuestions = async (request, response) => {
     const { userId } = request.user;
     const { page, limit } = getPagination(request);
-    const questions = await Question.find({ userId })
-      .skip(page * limit)
-      .limit(limit)
-      .exec();
+    const data = await Question.find({ userId })
+      .sort("createdAt")
+      .skip(skip)
+      .limit(limit);
+    // .skip(page * limit)
+    // .limit(limit)
+    // .exec();
 
-    res.status(StatusCodes.OK).json({ questions });
+    res.status(StatusCodes.OK).json({ data });
   };
 
   static updateUserScore = async (request, response) => {
