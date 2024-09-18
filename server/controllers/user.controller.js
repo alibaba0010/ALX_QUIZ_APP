@@ -13,6 +13,7 @@ import {
   requiredFields,
   checkEmail,
 } from "../models/userModel";
+import Question from "../models/questionDB";
 const apiKey = process.env.QUIZ_API_KEY;
 const url = "https://quizapi.io/api/v1/questions";
 class UsersController {
@@ -106,10 +107,27 @@ class UsersController {
     const { userId } = request.user;
     const { question, answers, correct_answers, multiple_correct_answers } =
       request.body;
-
-    const user = await findUser(userId);
+    await Question.create({
+      userId,
+      question,
+      answers,
+      correct_answers,
+      multiple_correct_answers,
+    });
+    response
+      .status(StatusCodes.CREATED)
+      .json({ data: "Question saved successfully" });
   };
-  static showQuestions = async (request, response) => {};
+  static showQuestions = async (request, response) => {
+    const { userId } = request.user;
+    const { page, limit } = getPagination(request);
+    const questions = await Question.find({ userId })
+      .skip(page * limit)
+      .limit(limit)
+      .exec();
+
+    res.status(StatusCodes.OK).json({ questions });
+  };
 
   static updateUserScore = async (request, response) => {
     const { userId } = req.user;

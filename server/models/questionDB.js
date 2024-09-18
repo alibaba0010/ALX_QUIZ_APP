@@ -2,7 +2,7 @@ import pkg, { Types } from "mongoose";
 const { Schema, model } = pkg;
 
 const QuestionSchema = new Schema({
-  user: { type: Types.ObjectId, ref: "User", required: true },
+  userId: { type: Types.ObjectId, ref: "User", required: true },
   data: [
     {
       question: { type: String },
