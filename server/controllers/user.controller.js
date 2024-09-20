@@ -153,7 +153,7 @@ class UsersController {
 
     const { score } = user;
 
-    res.status(StatusCodes.OK).json({ score });
+    response.status(StatusCodes.OK).json({ score });
   };
 }
 
