@@ -70,7 +70,7 @@ function convertToMinutesAndSeconds(totalSeconds) {
   return `${formattedMinutes}:${formattedSeconds}`;
 }
 async function loadQuestion() {
-  console.log(quizData);
+  console.log("Saving quiz question", quizData[0]);
 
   resetState();
   const currentQuestion = await quizData[0][currentQuestionIndex];
@@ -237,6 +237,7 @@ function getQuizQuestion(userId) {
       if (resultString) {
         const data = JSON.parse(resultString);
         quizData.push(data);
+
         loadQuestion(data);
         // return
       } else {
@@ -266,13 +267,16 @@ function checkQuizQuestionsExists(quizId) {
   }
 }
 function showScore() {
+  const result = (score / quizData.length) * 100;
+  saveScore(result);
   resetState();
   for (let i = 0; i < questionElement.length; i++) {
     questionElement[i].innerHTML = `
     <h2>Quiz Completed!</h2>
     <p>Your final score is ${score} out of ${quizData[0].length}</p>
     `;
-    clearLocalStorage();
+    saveQuizQuestion();
+    // clearLocalStorage();
   }
   submitButton.innerHTML = "Start Quiz Again";
   submitButton.style.display = "block";
@@ -296,7 +300,7 @@ function updateURLWithQuestionId(questionId) {
 
 function clearLocalStorage() {
   try {
-    // Clear all items from localStorage
+    // Clear all items from localStorage and and array
     localStorage.clear();
 
     return true;
@@ -306,5 +310,30 @@ function clearLocalStorage() {
     return false;
   }
 }
-function saveQuizQuestion() {}
+async function saveQuizQuestion() {}
+
 function showPastQuestions() {}
+async function saveScore(result) {
+  await getScore(result);
+  const pastResults = await getScore();
+  if (result > pastResults) {
+    const response = await fetch("http://127.0.0.1:5000/api/v1/user/result", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ score: result }),
+    });
+    if (!response.ok) {
+      throw new Error("Error saving score");
+    }
+  }
+}
+async function getScore() {
+  const response = await fetch("http://127.0.0.1:5000/api/v1/user/result", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+  const resultData = await response.json();
+  return resultData;
+}
