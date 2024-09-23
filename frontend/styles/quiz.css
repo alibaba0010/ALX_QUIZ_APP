@@ -66,7 +66,8 @@ body {
 .answer-btn:disabled {
   cursor: no-drop;
 }
-#next-btn {
+#next-btn,
+#last-quiz-btn {
   background: #001e4d;
   color: #fff;
   font-weight: 500;
@@ -89,6 +90,7 @@ body {
 }
 #multiple {
   margin: 5px 0px;
+  font-weight: 900;
   display: none;
 }
 .multiple-answer {
@@ -97,4 +99,9 @@ body {
 .selected {
   background-color: #001e4d;
   color: #fff;
+}
+.main-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }

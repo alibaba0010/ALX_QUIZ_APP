@@ -5,11 +5,11 @@ const questionElement = document.getElementsByClassName("question-header");
 const answersElement = document.getElementById("answer-btns");
 const multiple_correct_answer = document.getElementById("multiple");
 const submitButton = document.getElementById("next-btn");
+const showQuizResult = document.getElementById("last-quiz-btn");
 let previouslySelectedButton = null;
 let quizData = [];
 let score = 0;
 let currentScore = 0;
-
 const loadQuiz = async () => {
   const response = await fetch("http://127.0.0.1:5000/api/v1/user/quiz", {
     method: "GET",
@@ -70,8 +70,6 @@ function convertToMinutesAndSeconds(totalSeconds) {
   return `${formattedMinutes}:${formattedSeconds}`;
 }
 async function loadQuestion() {
-  console.log("Saving quiz question", quizData[0]);
-
   resetState();
   const currentQuestion = await quizData[0][currentQuestionIndex];
   updateURLWithQuestionId(currentQuestion.id);
@@ -209,6 +207,8 @@ function checkMultipleChoice() {
   if (currentChoice === "true") {
     // change to true false
     multiple_correct_answer.style.display = "block";
+  } else {
+    multiple_correct_answer.style.display = "none";
   }
 }
 function storeQuizQuestion(userId, result) {
@@ -266,20 +266,25 @@ function checkQuizQuestionsExists(quizId) {
     return false;
   }
 }
-function showScore() {
-  const result = (score / quizData.length) * 100;
-  saveScore(result);
+async function showScore() {
   resetState();
+  // multiple_correct_answer.style.display = "none";
+  document.getElementById("score-display").innerHTML = "Highest Score: ";
+  document.getElementById("total-question").style.display = "none";
+  const result = (score / quizData[0].length) * 100;
+  await saveScore(result);
+  document.getElementById("current-question").innerHTML = `${result}%`;
   for (let i = 0; i < questionElement.length; i++) {
     questionElement[i].innerHTML = `
     <h2>Quiz Completed!</h2>
-    <p>Your final score is ${score} out of ${quizData[0].length}</p>
+    <p>Your final score is ${score} out of ${quizData[0].length}. Your percentage score is ${result}%</p>
     `;
-    saveQuizQuestion();
     // clearLocalStorage();
   }
   submitButton.innerHTML = "Start Quiz Again";
   submitButton.style.display = "block";
+  showQuizResult.style.display = "block";
+
   submitButton.addEventListener("click", function () {
     window.location.href = "../components/profile.html";
   });
@@ -310,22 +315,31 @@ function clearLocalStorage() {
     return false;
   }
 }
-async function saveQuizQuestion() {}
 
-function showPastQuestions() {}
 async function saveScore(result) {
-  await getScore(result);
+  console.log("Inner ", multiple_correct_answer.innerHTML);
+
+  await getScore();
   const pastResults = await getScore();
+  console.log("Past Results:", pastResults);
   if (result > pastResults) {
+    // Update the user score in DB
     const response = await fetch("http://127.0.0.1:5000/api/v1/user/result", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({ score: result }),
     });
-    if (!response.ok) {
-      throw new Error("Error saving score");
+    console.log("Result: " + response.json().score);
+    if (response.score) {
+      console.log("Inner 2", multiple_correct_answer.innerHTML);
+
+      multiple_correct_answer.innerHTML = `<p>Your new highest score is ${response.score}%</p>`;
     }
+  } else {
+    console.log("Inner 3", multiple_correct_answer.innerHTML);
+
+    multiple_correct_answer.innerHTML = `<p>Your highest score is ${result}%</p>`;
   }
 }
 async function getScore() {
