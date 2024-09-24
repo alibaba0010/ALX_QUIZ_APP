@@ -42,3 +42,35 @@ function getQuizQuestion(userId) {
     return null;
   }
 }
+
+function displayQuiz() {
+  quizData.forEach((question, index) => {
+    const questionElement = document.createElement("div");
+    questionElement.classList.add("question");
+
+    const questionTitle = document.createElement("h2");
+    questionTitle.textContent = `Question ${index + 1}: ${question.question}`;
+    questionElement.appendChild(questionTitle);
+
+    const optionsList = document.createElement("ul");
+    question.options.forEach((option, optionIndex) => {
+      const optionItem = document.createElement("li");
+      const optionInput = document.createElement("input");
+      optionInput.type = "radio";
+      optionInput.name = `question-${index}`;
+      optionInput.id = `question-${index}-option-${optionIndex}`;
+      optionInput.value = option.text;
+
+      const optionLabel = document.createElement("label");
+      optionLabel.htmlFor = `question-${index}-option-${optionIndex}`;
+      optionLabel.textContent = option.text;
+
+      optionItem.appendChild(optionInput);
+      optionItem.appendChild(optionLabel);
+      optionsList.appendChild(optionItem);
+    });
+
+    questionElement.appendChild(optionsList);
+    quizContainer.appendChild(questionElement);
+  });
+}
