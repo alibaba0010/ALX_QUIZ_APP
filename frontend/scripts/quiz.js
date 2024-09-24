@@ -6,6 +6,8 @@ const answersElement = document.getElementById("answer-btns");
 const multiple_correct_answer = document.getElementById("multiple");
 const submitButton = document.getElementById("next-btn");
 const showQuizResult = document.getElementById("last-quiz-btn");
+const goToProfile = document.getElementById("profile");
+const scoreDisplay = document.getElementById("score-display");
 let previouslySelectedButton = null;
 let quizData = [];
 let score = 0;
@@ -33,7 +35,8 @@ const loadQuiz = async () => {
 };
 loadQuiz();
 function showTime(datalength) {
-  let timeLeft = Math.round(datalength * 0.025) * 60; // Convert to seconds
+  let timeLeft = Math.round(datalength * 0.025) * 0.1 * 60; // Convert to seconds
+  // let timeLeft = Math.round(datalength * 0.025) * 60; // Convert to seconds
   const timeDisplay = document.getElementById("time-left");
 
   function updateTime() {
@@ -43,7 +46,6 @@ function showTime(datalength) {
       // Add any logic for when time runs out (e.g., end the quiz)
       alert("Time's up!");
       showScore();
-      // window.location.href = "../components/profile.html";
     }
 
     const formattedTime = convertToMinutesAndSeconds(timeLeft);
@@ -74,7 +76,7 @@ async function loadQuestion() {
   const currentQuestion = await quizData[0][currentQuestionIndex];
   updateURLWithQuestionId(currentQuestion.id);
   let questionNo = currentQuestionIndex + 1;
-  questionNoDisplay.innerHTML = questionNo;
+  questionNoDisplay.innerHTML = `${questionNo} /`;
   const { answers } = currentQuestion;
   for (let i = 0; i < questionElement.length; i++) {
     checkMultipleChoice();
@@ -84,7 +86,10 @@ async function loadQuestion() {
   for (const key in answers) {
     const answerButton = document.createElement("button");
     if (answers.hasOwnProperty(key) && answers[key] !== null) {
-      const value = answers[key];
+      let value = answers[key];
+      if (containsSpecialXters(value)) {
+        value = escapeHtml(value);
+      }
       answerButton.innerHTML = value;
       answerButton.dataset.questionKey = key;
       answerButton.classList.add("answer-btn");
@@ -237,8 +242,8 @@ function getQuizQuestion(userId) {
       if (resultString) {
         const data = JSON.parse(resultString);
         quizData.push(data);
-
         loadQuestion(data);
+        console.log(quizData[0]);
         // return
       } else {
         return null;
@@ -268,12 +273,12 @@ function checkQuizQuestionsExists(quizId) {
 }
 async function showScore() {
   resetState();
-  // multiple_correct_answer.style.display = "none";
-  document.getElementById("score-display").innerHTML = "Highest Score: ";
-  document.getElementById("total-question").style.display = "none";
+  totalQuestion.style.display = "none";
+  questionNoDisplay.style.display = "none";
+
+  scoreDisplay.innerHTML = "Highest Score: ";
   const result = (score / quizData[0].length) * 100;
   await saveScore(result);
-  document.getElementById("current-question").innerHTML = `${result}%`;
   for (let i = 0; i < questionElement.length; i++) {
     questionElement[i].innerHTML = `
     <h2>Quiz Completed!</h2>
@@ -284,8 +289,12 @@ async function showScore() {
   submitButton.innerHTML = "Start Quiz Again";
   submitButton.style.display = "block";
   showQuizResult.style.display = "block";
+  goToProfile.style.display = "block";
 
   submitButton.addEventListener("click", function () {
+    window.location.href = "../components/quiz.html";
+  });
+  goToProfile.addEventListener("click", function () {
     window.location.href = "../components/profile.html";
   });
 }
@@ -317,12 +326,12 @@ function clearLocalStorage() {
 }
 
 async function saveScore(result) {
-  console.log("Inner ", multiple_correct_answer.innerHTML);
-
   await getScore();
+
   const pastResults = await getScore();
-  console.log("Past Results:", pastResults);
-  if (result > pastResults) {
+  console.log("Previous results:", pastResults);
+  multiple_correct_answer.style.display = "block";
+  if (result > pastResults.score) {
     // Update the user score in DB
     const response = await fetch("http://127.0.0.1:5000/api/v1/user/result", {
       method: "PATCH",
@@ -330,16 +339,17 @@ async function saveScore(result) {
       credentials: "include",
       body: JSON.stringify({ score: result }),
     });
-    console.log("Result: " + response.json().score);
-    if (response.score) {
-      console.log("Inner 2", multiple_correct_answer.innerHTML);
-
-      multiple_correct_answer.innerHTML = `<p>Your new highest score is ${response.score}%</p>`;
+    const results = await response.json();
+    console.log("Result: " + results);
+    if (results.score) {
+      multiple_correct_answer.innerHTML = `<h3>Your new highest score is ${results.score}%</h3>`;
+      const scoreText = document.createTextNode(`${results.score}%`);
+      scoreDisplay.appendChild(scoreText);
     }
   } else {
-    console.log("Inner 3", multiple_correct_answer.innerHTML);
-
-    multiple_correct_answer.innerHTML = `<p>Your highest score is ${result}%</p>`;
+    multiple_correct_answer.innerHTML = `<h3>Your highest score is ${result}%</h3>`;
+    const scoreText = document.createTextNode(`${pastResults.score}%`);
+    scoreDisplay.appendChild(scoreText);
   }
 }
 async function getScore() {
@@ -350,4 +360,20 @@ async function getScore() {
   });
   const resultData = await response.json();
   return resultData;
+}
+function escapeHtml(text) {
+  const map = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;",
+  };
+  return text.replace(/[&<>"']/g, function (m) {
+    return map[m];
+  });
+}
+
+function containsSpecialXters(text) {
+  return /[<>]/.test(text);
 }

@@ -67,7 +67,8 @@ body {
   cursor: no-drop;
 }
 #next-btn,
-#last-quiz-btn {
+#last-quiz-btn,
+#profile {
   background: #001e4d;
   color: #fff;
   font-weight: 500;
