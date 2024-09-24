@@ -244,7 +244,7 @@ function getQuizQuestion(userId) {
         quizData.push(data);
         loadQuestion(data);
         console.log(quizData[0]);
-        // return
+        return;
       } else {
         return null;
       }
@@ -284,7 +284,6 @@ async function showScore() {
     <h2>Quiz Completed!</h2>
     <p>Your final score is ${score} out of ${quizData[0].length}. Your percentage score is ${result}%</p>
     `;
-    // clearLocalStorage();
   }
   submitButton.innerHTML = "Start Quiz Again";
   submitButton.style.display = "block";
@@ -292,10 +291,14 @@ async function showScore() {
   goToProfile.style.display = "block";
 
   submitButton.addEventListener("click", function () {
+    clearLocalStorage();
     window.location.href = "../components/quiz.html";
   });
   goToProfile.addEventListener("click", function () {
     window.location.href = "../components/profile.html";
+  });
+  showQuizResult.addEventListener("click", function () {
+    window.location.href = "../components/past-questions.html";
   });
 }
 function updateURLWithQuestionId(questionId) {
