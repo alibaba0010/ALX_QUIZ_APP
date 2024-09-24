@@ -28,7 +28,6 @@ function getQuizQuestion(userId) {
       if (resultString) {
         const data = JSON.parse(resultString);
         quizData.push(data);
-        console.log(quizData[0]);
         return;
       } else {
         return null;
@@ -44,7 +43,11 @@ function getQuizQuestion(userId) {
 }
 
 function displayQuiz() {
-  quizData.forEach((question, index) => {
+  console.log(quizData[0]);
+  console.log("Check ", quizData);
+  quizData[0].forEach((question, index) => {
+    console.log("Quiz: " + question);
+    console.log("Index: " + index);
     const questionElement = document.createElement("div");
     questionElement.classList.add("question");
 
@@ -74,3 +77,6 @@ function displayQuiz() {
     quizContainer.appendChild(questionElement);
   });
 }
+displayQuiz();
+
+// http://127.0.0.1:5501/components/past-questions.html
