@@ -129,12 +129,12 @@ class UsersController {
     // .limit(limit)
     // .exec();
 
-    res.status(StatusCodes.OK).json({ data });
+    response.status(StatusCodes.OK).json({ data });
   };
 
   static updateUserScore = async (request, response) => {
-    const { userId } = req.user;
-    const { score } = req.body;
+    const { userId } = request.user;
+    const { score } = request.body;
 
     if (!score) throw new BadRequestError("Score field cannot be empty");
 
@@ -143,9 +143,9 @@ class UsersController {
 
     const updatedUser = await user.save();
 
-    const { email, id } = updatedUser;
+    // const { email, id } = updatedUser;
 
-    res.status(StatusCodes.OK).json({ score: updatedUser.score });
+    response.status(StatusCodes.OK).json({ score: updatedUser.score });
   };
   static showUserScore = async (request, response) => {
     const { userId } = request.user;
