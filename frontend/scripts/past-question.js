@@ -10,7 +10,9 @@ const loadUser = async () => {
     //   document.getElementById("title-user").textContent = result.data.username;
     //   document.getElementById("username").textContent = result.data.username;
     const { id } = result.data;
-    getQuizQuestion(id);
+    const res = getQuizQuestion(id);
+    quizData.push(res);
+    displayQuiz();
   } else {
     window.location.href = "../index.html";
     alert(result.msg);
@@ -27,8 +29,8 @@ function getQuizQuestion(userId) {
       // If a result was found, parse it back into an object
       if (resultString) {
         const data = JSON.parse(resultString);
-        quizData.push(data);
-        return;
+
+        return data;
       } else {
         return null;
       }
@@ -44,10 +46,8 @@ function getQuizQuestion(userId) {
 
 function displayQuiz() {
   console.log(quizData[0]);
-  console.log("Check ", quizData);
   quizData[0].forEach((question, index) => {
-    console.log("Quiz: " + question);
-    console.log("Index: " + index);
+    console.log("Quiz: " + question.answers);
     const questionElement = document.createElement("div");
     questionElement.classList.add("question");
 
@@ -56,7 +56,9 @@ function displayQuiz() {
     questionElement.appendChild(questionTitle);
 
     const optionsList = document.createElement("ul");
-    question.options.forEach((option, optionIndex) => {
+    const { answers } = question;
+
+    question.answers.forEach((option, optionIndex) => {
       const optionItem = document.createElement("li");
       const optionInput = document.createElement("input");
       optionInput.type = "radio";
@@ -77,6 +79,5 @@ function displayQuiz() {
     quizContainer.appendChild(questionElement);
   });
 }
-displayQuiz();
 
 // http://127.0.0.1:5501/components/past-questions.html
