@@ -12,7 +12,7 @@ const loadUser = async () => {
     const { id } = result.data;
     const res = getQuizQuestion(id);
     quizData.push(res);
-    displayQuiz();
+    loadQuiz();
   } else {
     window.location.href = "../index.html";
     alert(result.msg);
@@ -44,40 +44,38 @@ function getQuizQuestion(userId) {
   }
 }
 
-function displayQuiz() {
-  console.log(quizData[0]);
-  quizData[0].forEach((question, index) => {
-    console.log("Quiz: " + question.answers);
-    const questionElement = document.createElement("div");
-    questionElement.classList.add("question");
-
-    const questionTitle = document.createElement("h2");
-    questionTitle.textContent = `Question ${index + 1}: ${question.question}`;
-    questionElement.appendChild(questionTitle);
-
-    const optionsList = document.createElement("ul");
-    const { answers } = question;
-
-    question.answers.forEach((option, optionIndex) => {
-      const optionItem = document.createElement("li");
-      const optionInput = document.createElement("input");
-      optionInput.type = "radio";
-      optionInput.name = `question-${index}`;
-      optionInput.id = `question-${index}-option-${optionIndex}`;
-      optionInput.value = option.text;
-
-      const optionLabel = document.createElement("label");
-      optionLabel.htmlFor = `question-${index}-option-${optionIndex}`;
-      optionLabel.textContent = option.text;
-
-      optionItem.appendChild(optionInput);
-      optionItem.appendChild(optionLabel);
-      optionsList.appendChild(optionItem);
-    });
-
-    questionElement.appendChild(optionsList);
-    quizContainer.appendChild(questionElement);
-  });
-}
-
 // http://127.0.0.1:5501/components/past-questions.html
+
+function loadQuiz() {
+  console.log(quizData[0]);
+  const quizContainer = document.getElementById("quiz-container");
+
+  let quizHTML = "";
+
+  quizData[0].forEach((questionData, index) => {
+    console.log("Loading: " + index);
+    console.log("Quiz: " + questionData.question);
+    quizHTML += `
+        <div class="question" id="question-${index}">
+          <h2>Question ${index + 1}</h2>
+          <p>${questionData.question}</p>
+          <form class="quiz-form">
+      `;
+
+    for (let key in questionData.answers) {
+      if (questionData.answers[key] !== null) {
+        quizHTML += `
+          <button class="answer-btn" data-question="${index}" data-answer="${key}">
+            ${questionData.answers[key]}
+          </button>
+        `;
+      }
+    }
+  });
+
+  // quizHTML += '<button id="submit-quiz">Submit Quiz</button>';
+
+  quizContainer.innerHTML = quizHTML;
+
+  // document.getElementById("submit-quiz").addEventListener("click", submitQuiz);
+}

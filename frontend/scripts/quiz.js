@@ -8,6 +8,8 @@ const submitButton = document.getElementById("next-btn");
 const showQuizResult = document.getElementById("last-quiz-btn");
 const goToProfile = document.getElementById("profile");
 const scoreDisplay = document.getElementById("score-display");
+let storeAnswer = [];
+let storeMultipleAnswer = [];
 let previouslySelectedButton = null;
 let quizData = [];
 let score = 0;
@@ -22,7 +24,7 @@ const loadQuiz = async () => {
   if (result.data) {
     const { userId, data } = result;
     totalQuestion.innerHTML = data.length;
-    showTime(data.length);
+    // showTime(data.length);
     if (!checkQuizQuestionsExists(userId)) {
       // If not, store the new quiz data
       storeQuizQuestion(userId, data);
@@ -144,14 +146,9 @@ function selectAnswer(event) {
         ) {
           const previousScoreIncrement = 1 / correctAnswers.length;
           currentScore -= previousScoreIncrement;
-          score = currentScore.toFixed(2); //used for questions
+          score = currentScore.toFixed(2);
         }
       }
-
-      // Remove selection from all buttons
-      document.querySelectorAll(".answer-button").forEach((button) => {
-        button.classList.remove("selected");
-      });
 
       // Select the current button
       selectedButton.classList.add("selected");
@@ -182,6 +179,14 @@ function selectAnswer(event) {
   submitButton.addEventListener("click", nextButton);
 }
 function nextButton() {
+  const answerClicked = previouslySelectedButton.data.questionKey;
+  if (answerClicked.length > 8) {
+    storeMultipleAnswer.push(answerClicked);
+    storeAnswer.push(storeMultipleAnswer);
+    console.log("Stored Answer");
+  } else {
+    storeAnswer.push(storedAnswer);
+  }
   // Check answer and update score
   if (currentQuestionIndex < quizData[0].length) {
     nextQuestion();
@@ -201,6 +206,7 @@ function nextQuestion() {
 }
 
 function resetState() {
+  previouslySelectedButton = null;
   submitButton.style.display = "none";
   while (answersElement.firstChild) {
     answersElement.removeChild(answersElement.firstChild);
@@ -332,7 +338,6 @@ async function saveScore(result) {
   await getScore();
 
   const pastResults = await getScore();
-  console.log("Previous results:", pastResults);
   multiple_correct_answer.style.display = "block";
   if (result > pastResults.score) {
     // Update the user score in DB
@@ -343,7 +348,6 @@ async function saveScore(result) {
       body: JSON.stringify({ score: result }),
     });
     const results = await response.json();
-    console.log("Result: " + results);
     if (results.score) {
       multiple_correct_answer.innerHTML = `<h3>Your new highest score is ${results.score}%</h3>`;
       const scoreText = document.createTextNode(`${results.score}%`);
