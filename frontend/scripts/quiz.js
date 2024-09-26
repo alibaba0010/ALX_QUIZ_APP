@@ -8,9 +8,9 @@ const submitButton = document.getElementById("next-btn");
 const showQuizResult = document.getElementById("last-quiz-btn");
 const goToProfile = document.getElementById("profile");
 const scoreDisplay = document.getElementById("score-display");
-let storeAnswer = [];
-let storeMultipleAnswer = [];
+export let storeAnswer = [];
 let previouslySelectedButton = null;
+let selectedAnswers = [];
 let quizData = [];
 let score = 0;
 let currentScore = 0;
@@ -118,14 +118,17 @@ function selectAnswer(event) {
   const { questionKey } = selectedButton.dataset;
   const correctAnswers = selectedButton.dataset.correctAnswers.split(",");
   const isCorrect = correctAnswers.includes(`${questionKey}_correct`);
-
+  selectedAnswers = removeItemFromArray(
+    selectedAnswers,
+    selectedButton.dataset.questionKey
+  );
   if (selectedButton.classList.contains("selected")) {
     selectedButton.classList.remove("selected");
+    previouslySelectedButton = null;
     if (isCorrect) {
-      const scoreIncrement = 1 / correctAnswers.length;
-      score -= scoreIncrement;
+      scoreIncrement = 1 / correctAnswers.length;
+      currentScore -= scoreIncrement;
       score = currentScore.toFixed(2); //used for questions
-      // selectedButton.classList.remove("correct-answer");
     }
   } else {
     selectedButton.classList.add("selected");
@@ -157,19 +160,20 @@ function selectAnswer(event) {
     if (correctAnswers.includes(`${questionKey}_correct`)) {
       // Calculate score increment
       // Increment the score
-    }
-    if (isCorrect) {
-      // Calculate score increment
-      const scoreIncrement = 1 / correctAnswers.length;
+      if (isCorrect) {
+        // Calculate score increment
+        const scoreIncrement = 1 / correctAnswers.length;
 
-      // Increment the score
-      currentScore += scoreIncrement;
-      // Update the score display
-      // updateScoreDisplay();
-      score = currentScore.toFixed(2); //used for questions
+        // Increment the score
+        currentScore += scoreIncrement;
+        // Update the score display
+        score = currentScore.toFixed(2);
+      }
     }
+    selectedAnswers.push(selectedButton.dataset.questionKey);
   }
   submitButton.style.display = "block";
+
   if (currentQuestionIndex < quizData[0].length) {
     submitButton.innerHTML = "Next";
   } else {
@@ -179,13 +183,11 @@ function selectAnswer(event) {
   submitButton.addEventListener("click", nextButton);
 }
 function nextButton() {
-  const answerClicked = previouslySelectedButton.data.questionKey;
-  if (answerClicked.length > 8) {
-    storeMultipleAnswer.push(answerClicked);
-    storeAnswer.push(storeMultipleAnswer);
-    console.log("Stored Answer");
+  if (previouslySelectedButton) {
+    const answerClicked = previouslySelectedButton.dataset.questionKey;
+    storeAnswer.push(answerClicked);
   } else {
-    storeAnswer.push(storedAnswer);
+    storeAnswer.push(selectedAnswers);
   }
   // Check answer and update score
   if (currentQuestionIndex < quizData[0].length) {
@@ -206,6 +208,7 @@ function nextQuestion() {
 }
 
 function resetState() {
+  selectedAnswers = [];
   previouslySelectedButton = null;
   submitButton.style.display = "none";
   while (answersElement.firstChild) {
@@ -383,4 +386,11 @@ function escapeHtml(text) {
 
 function containsSpecialXters(text) {
   return /[<>]/.test(text);
+}
+
+function removeItemFromArray(array, item) {
+  if (array.includes(item)) {
+    return array.filter((element) => element !== item);
+  }
+  return array;
 }

@@ -53,8 +53,8 @@ function loadQuiz() {
   let quizHTML = "";
 
   quizData[0].forEach((questionData, index) => {
-    console.log("Loading: " + index);
-    console.log("Quiz: " + questionData.question);
+    checkMultipleQuestion(questionData);
+    console.log(questionData.multiple_correct_answers);
     quizHTML += `
         <div class="question" id="question-${index}">
           <h2>Question ${index + 1}</h2>
@@ -78,4 +78,12 @@ function loadQuiz() {
   quizContainer.innerHTML = quizHTML;
 
   // document.getElementById("submit-quiz").addEventListener("click", submitQuiz);
+}
+
+function checkMultipleQuestion(question) {
+  if (question.multiple_correct_answers === "true") {
+    console.log("Hello World");
+  } else {
+    console.log("Hello Universe");
+  }
 }

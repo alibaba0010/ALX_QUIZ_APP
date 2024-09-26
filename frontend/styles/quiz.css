@@ -80,12 +80,7 @@ body {
   cursor: pointer;
   display: none;
 }
-.correctAnswer {
-  background-color: #9aeabc;
-}
-.wrongAnswer {
-  background-color: #ff9393;
-}
+
 .quiz-header {
   font-size: 20px;
 }
