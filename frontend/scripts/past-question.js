@@ -63,10 +63,15 @@ function loadQuiz() {
       `;
 
     for (let key in questionData.answers) {
+      console.log(`key ${key}`);
       if (questionData.answers[key] !== null) {
+        let value = questionData.answers[key];
+        if (containsSpecialXters(value)) {
+          value = escapeHtml(value);
+        }
         quizHTML += `
           <button class="answer-btn" data-question="${index}" data-answer="${key}">
-            ${questionData.answers[key]}
+            ${value}
           </button>
         `;
       }
@@ -82,8 +87,22 @@ function loadQuiz() {
 
 function checkMultipleQuestion(question) {
   if (question.multiple_correct_answers === "true") {
-    console.log("Hello World");
   } else {
-    console.log("Hello Universe");
   }
+}
+function escapeHtml(text) {
+  const map = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;",
+  };
+  return text.replace(/[&<>"']/g, function (m) {
+    return map[m];
+  });
+}
+
+function containsSpecialXters(text) {
+  return /[<>]/.test(text);
 }
