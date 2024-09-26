@@ -17,8 +17,8 @@ body {
 }
 #quiz-container {
   display: flex;
-  flex-direction: column;
   background-color: #fff;
+  flex-direction: column;
   width: 90%;
   max-width: 600px;
   margin: 100px auto 0;
