@@ -37,7 +37,7 @@ const loadQuiz = async () => {
 };
 loadQuiz();
 function showTime(datalength) {
-  let timeLeft = Math.round(datalength * 0.025) * 60; // Convert to seconds
+  let timeLeft = Math.round(datalength * 0.45) * 60; // Convert to seconds
   const timeDisplay = document.getElementById("time-left");
 
   function updateTime() {
@@ -281,6 +281,7 @@ function checkQuizQuestionsExists(quizId) {
 }
 async function showScore() {
   resetState();
+  removeQuestionParamFromURL();
   totalQuestion.style.display = "none";
   questionNoDisplay.style.display = "none";
 
@@ -391,4 +392,21 @@ function removeItemFromArray(array, item) {
     return array.filter((element) => element !== item);
   }
   return array;
+}
+
+function removeQuestionParamFromURL() {
+  // Get the current URL
+  let currentURL = new URL(window.location.href);
+
+  // Remove the 'question' parameter
+  currentURL.searchParams.delete("question");
+
+  // Get the new URL string
+  let newURL = currentURL.toString();
+
+  // Update the browser's history without reloading the page
+  window.history.pushState({}, "", newURL);
+
+  // Return the new URL
+  return;
 }
