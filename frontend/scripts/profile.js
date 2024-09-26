@@ -14,11 +14,13 @@ const loadUser = async () => {
     alert(result.msg);
   }
 };
+const lastQuizButton = document.getElementById("last-quiz-btn");
 loadUser();
 const startQuizButton = document.getElementById("start-quiz");
 startQuizButton.addEventListener("click", async function (event) {
   event.preventDefault();
-  startQuizButton.style.backgroundColor = "#001e4d"; // Change button color to green
+  startQuizButton.style.backgroundColor = "#001e4d";
+  startQuizButton.style.color = "#fff";
 
   // Redirect to quiz.html
   window.location.href = "../components/quiz.html";
@@ -26,7 +28,8 @@ startQuizButton.addEventListener("click", async function (event) {
 
 const logOut = document.getElementById("log-out");
 logOut.addEventListener("click", async function (event) {
-  logOut.style.backgroundColor = "#001e4d"; // Change button color to green
+  logOut.style.backgroundColor = "#001e4d";
+  logOut.style.color = "#fff";
 
   event.preventDefault();
   const response = await fetch("http://127.0.0.1:5000/api/v1/user/logout", {
@@ -42,4 +45,12 @@ logOut.addEventListener("click", async function (event) {
   } else {
     alert(result.msg);
   }
+});
+lastQuizButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  lastQuizButton.style.backgroundColor = "#001e4d";
+  lastQuizButton.style.color = "#fff";
+
+  // Redirect to past-question.html
+  window.location.href = "../components/past-question.html";
 });
