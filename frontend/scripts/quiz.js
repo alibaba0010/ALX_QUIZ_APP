@@ -37,8 +37,7 @@ const loadQuiz = async () => {
 };
 loadQuiz();
 function showTime(datalength) {
-  let timeLeft = Math.round(datalength * 0.025) * 0.1 * 60; // Convert to seconds
-  // let timeLeft = Math.round(datalength * 0.025) * 60; // Convert to seconds
+  let timeLeft = Math.round(datalength * 0.025) * 60; // Convert to seconds
   const timeDisplay = document.getElementById("time-left");
 
   function updateTime() {
@@ -300,14 +299,13 @@ async function showScore() {
   goToProfile.style.display = "block";
 
   submitButton.addEventListener("click", function () {
-    clearLocalStorage();
     window.location.href = "../components/quiz.html";
   });
   goToProfile.addEventListener("click", function () {
     window.location.href = "../components/profile.html";
   });
   showQuizResult.addEventListener("click", function () {
-    window.location.href = "../components/past-questions.html";
+    window.location.href = "../components/past-question.html";
   });
 }
 function updateURLWithQuestionId(questionId) {

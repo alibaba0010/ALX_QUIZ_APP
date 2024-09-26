@@ -19,6 +19,7 @@ loadUser();
 const startQuizButton = document.getElementById("start-quiz");
 startQuizButton.addEventListener("click", async function (event) {
   event.preventDefault();
+  clearLocalStorage();
   startQuizButton.style.backgroundColor = "#001e4d";
   startQuizButton.style.color = "#fff";
 
@@ -54,3 +55,16 @@ lastQuizButton.addEventListener("click", function (event) {
   // Redirect to past-question.html
   window.location.href = "../components/past-question.html";
 });
+
+function clearLocalStorage() {
+  try {
+    // Clear all items from localStorage and and array
+    localStorage.clear();
+
+    return true;
+  } catch (error) {
+    // Log the error if something goes wrong
+    console.error("Error clearing localStorage:", error);
+    return false;
+  }
+}
