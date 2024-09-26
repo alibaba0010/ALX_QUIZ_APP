@@ -4,11 +4,16 @@
   box-sizing: border-box;
 }
 body {
-  display: flex;
-  /* justify-content: start; */
-  align-items: center;
+  /* display: flex;
+  align-items: center; */
   background-color: beige;
   font-family: curvy;
+}
+#main-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 #quiz-container {
   display: flex;
@@ -38,4 +43,16 @@ body {
 }
 .wrongAnswer {
   background-color: #ff9393;
+  background-color: #add8e6;
+}
+#next-btn {
+  background: #001e4d;
+  color: #fff;
+  font-weight: 500;
+  width: 150px;
+  border: 0;
+  padding: 10px;
+  margin: 20px auto 0;
+  border-radius: 4px;
+  cursor: pointer;
 }

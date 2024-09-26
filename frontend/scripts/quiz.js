@@ -24,7 +24,7 @@ const loadQuiz = async () => {
   if (result.data) {
     const { userId, data } = result;
     totalQuestion.innerHTML = data.length;
-    // showTime(data.length);
+    showTime(data.length);
     if (!checkQuizQuestionsExists(userId)) {
       // If not, store the new quiz data
       storeQuizQuestion(userId, data);
