@@ -45,37 +45,52 @@ function loadQuiz() {
   const quizContainer = document.getElementById("quiz-container");
 
   let quizHTML = "";
-
-  quizData[0].forEach((questionData, index) => {
-    const isMultipleChoice = checkMultipleQuestion(questionData);
-    quizHTML += `
+  if (quizData[0] === null) {
+    window.location.href = "../components/profile.html";
+  } else {
+    quizData[0].forEach((questionData, index) => {
+      checkMultipleQuestion(questionData);
+      // const isMultipleChoice = checkMultipleQuestion(questionData);
+      console.log(questionData.multiple_correct_answers);
+      quizHTML += `
         <div class="question" id="question-${index}">
           <h2>Question ${index + 1}</h2>
           <p>${questionData.question}</p>
           <div class="answer-container">
       `;
 
-    for (let key in questionData.answers) {
-      if (questionData.answers[key] !== null) {
-        let value = questionData.answers[key];
-        if (containsSpecialXters(value)) {
-          value = escapeHtml(value);
-        }
-        const isCorrect =
-          questionData.correct_answers[`${key}_correct`] === "true";
-        const answerClass = isCorrect ? "answer correct" : "answer";
-        quizHTML += `
+      for (let key in questionData.answers) {
+        if (questionData.answers[key] !== null) {
+          let value = questionData.answers[key];
+          if (containsSpecialXters(value)) {
+            value = escapeHtml(value);
+          }
+          const isCorrect =
+            questionData.correct_answers[`${key}_correct`] === "true";
+          const answerClass = isCorrect ? "answer correct" : "answer";
+          quizHTML += `
           <div class="${answerClass}" data-question="${index}" data-answer="${key}">
             ${value}
           </div>
         `;
+        }
       }
-    }
 
-    quizHTML += `</div></div>`;
-  });
+      quizHTML += `</div></div>`;
+    });
+  }
+  // Add the "Go to Profile" button at the bottom
+  quizHTML += `
+    <div class="button-container">
+      <button id="next-btn" type="button">Go to Profile</button>
+    </div>
+  `;
 
   quizContainer.innerHTML = quizHTML;
+
+  document.getElementById("next-btn").addEventListener("click", function () {
+    window.location.href = "../components/profile.html";
+  });
 }
 
 function checkMultipleQuestion(question) {
@@ -119,7 +134,6 @@ style.textContent = `
     display: grid;
     gap: 10px;
     margin-top: 10px;
-    border-radius: 50px;
   }
 
   .answer {
@@ -150,5 +164,31 @@ style.textContent = `
     -ms-user-select: none;
   }
 
+  /* Additional styles for better readability */
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  #quiz-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  /* Styles for the "Go to Profile" button */
+  .button-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  #next-btn:hover {
+    background-color: #575e69;
+  }
 `;
 document.head.appendChild(style);

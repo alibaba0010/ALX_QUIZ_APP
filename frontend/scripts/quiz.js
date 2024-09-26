@@ -36,32 +36,39 @@ const loadQuiz = async () => {
   }
 };
 loadQuiz();
+
 function showTime(datalength) {
-  let timeLeft = Math.round(datalength * 0.45) * 60; // Convert to seconds
+  let timeLeft = Math.round(datalength * 0.3) * 60; // Convert to seconds
   const timeDisplay = document.getElementById("time-left");
+  let timer; // Declare timer variable in this scope so it can be accessed by clearInterval
 
   function updateTime() {
-    if (timeLeft <= 0) {
+    if (currentQuestionIndex === datalength) {
       clearInterval(timer);
       timeDisplay.innerHTML = "00:00";
-      // Add any logic for when time runs out (e.g., end the quiz)
+    } else if (timeLeft <= 0) {
       alert("Time's up!");
+      clearInterval(timer);
+      timeDisplay.innerHTML = "00:00";
       showScore();
+    } else {
+      const formattedTime = convertToMinutesAndSeconds(timeLeft);
+      timeDisplay.innerHTML = formattedTime;
+      timeLeft--;
     }
-
-    const formattedTime = convertToMinutesAndSeconds(timeLeft);
-    timeDisplay.innerHTML = formattedTime;
-    timeLeft--;
   }
 
-  // Initial call to set the starting time
+  // Initial call to set up the display
   updateTime();
 
-  // Set up the interval to update every second
-  const timer = setInterval(updateTime, 1000);
+  // Start the timer
+  timer = setInterval(updateTime, 1000);
 
-  // Return the timer so it can be cleared if needed
-  return timer;
+  // Return a function to stop the timer from outside if needed
+  return function stopTimer() {
+    clearInterval(timer);
+    timeDisplay.innerHTML = "00:00";
+  };
 }
 function convertToMinutesAndSeconds(totalSeconds) {
   const minutes = Math.floor(totalSeconds / 60);
@@ -193,7 +200,7 @@ function nextButton() {
     nextQuestion();
   } else {
     // Quiz finished
-    // startQuiz(data);
+    showScore();
   }
 }
 
@@ -202,7 +209,6 @@ function nextQuestion() {
   if (currentQuestionIndex < quizData[0].length) {
     loadQuestion();
   } else {
-    showScore();
   }
 }
 
@@ -287,6 +293,7 @@ async function showScore() {
 
   scoreDisplay.innerHTML = "Highest Score: ";
   const result = (score / quizData[0].length) * 100;
+  result = result.toFixed(2);
   await saveScore(result);
   for (let i = 0; i < questionElement.length; i++) {
     questionElement[i].innerHTML = `
