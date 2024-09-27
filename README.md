@@ -49,3 +49,11 @@ install Live Server extensions in your code editor
 ![](./images/highest.png)
 ![](./images/multiple.png)
 ![](./images/show-quiz.png)
+
+## ✍️ Authors <a name = "authors"></a>
+
+- [@alibaba](https://github.com/alibaba0010) - Idea & Initial work
+
+## 🎉 Acknowledgements <a name = "acknowledgement"></a>
+
+- [Stackup](https://stackup.dev/)
