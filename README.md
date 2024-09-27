@@ -56,4 +56,4 @@ install Live Server extensions in your code editor
 
 ## 🎉 Acknowledgements <a name = "acknowledgement"></a>
 
-- [Stackup](https://stackup.dev/)
+- [Stackup](https://intranet.alxswe.com/)
