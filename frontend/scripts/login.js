@@ -72,9 +72,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Google Sign-In functionality
 function handleCredentialResponse(response) {
+  console.log("In response: ", response);
   const id_token = response.credential;
 
-  fetch("http://127.0.0.1:5000/api/v1/user/google-signin", {
+  fetch("http://127.0.0.1:5000/api/v1/user/google", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
