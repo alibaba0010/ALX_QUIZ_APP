@@ -37,16 +37,26 @@ h1 {
   flex-direction: column;
 }
 
-label {
-  font-size: 14px;
-  color: #333;
-  margin-bottom: 5px;
+.input-group {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper i {
+  position: absolute;
+  left: 12px;
+  color: #666;
 }
 
 input {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
+  padding: 12px 12px 12px 40px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
@@ -58,7 +68,20 @@ input:focus {
   outline: none;
 }
 
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+}
+
 #submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
   background: #001e4d;
   color: #fff;
   font-weight: 500;
@@ -116,6 +139,9 @@ input:focus {
 }
 
 #login {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   color: #001e4d;
   text-decoration: none;
   font-weight: 600;
@@ -124,4 +150,16 @@ input:focus {
 
 #login:hover {
   color: #003366;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
