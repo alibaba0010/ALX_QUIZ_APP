@@ -67,6 +67,7 @@ class UsersController {
       email: user.email,
       id: user._id,
     };
+    response.setHeader("Authorization", `Bearer ${token}`);
     response.status(StatusCodes.OK).json({ data });
   }
 

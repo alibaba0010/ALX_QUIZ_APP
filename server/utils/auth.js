@@ -7,6 +7,9 @@ import User from "../models/userDB";
 export const authenticateUser = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   let token;
+  console.log("In authenticateUser", req.session);
+  console.log("In authenticateUser2", authHeader);
+  console.log("In authenticateUser3", req.session);
 
   if (req.session.jwt) {
     token = req.session.jwt;

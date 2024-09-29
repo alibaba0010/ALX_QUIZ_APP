@@ -1,68 +1,127 @@
 * {
-  padding: 2px;
+  padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
+
 body {
   display: flex;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
-  background-color: beige;
-  font-family: curvy;
-}
-.registration-form {
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-  width: 90%;
-  max-width: 600px;
-  margin: 100px auto 0;
-  border-radius: 10px;
-  padding: 30px;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
 }
 
-#registration-form h1 {
-  font-weight: 25px;
+.registration-form {
+  background-color: #fff;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 24px;
   color: #001e4d;
-  font-weight: 600px;
-  border-bottom: 1px solid #333;
+  font-weight: 600;
+  border-bottom: 2px solid #001e4d;
   padding-bottom: 10px;
+  margin-bottom: 20px;
+  text-align: center;
 }
+
 #register-form {
-  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
 }
+
+label {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
 input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #363434;
-  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s;
 }
-label {
-  display: flex;
-  align-items: center;
+
+input:focus {
+  border-color: #001e4d;
+  outline: none;
 }
+
 #submit {
-  background: #0e0a0a;
+  background: #001e4d;
   color: #fff;
   font-weight: 500;
   font-size: 16px;
-
   width: 100%;
-  border: 1px solid #222;
-  padding: 10px;
-  margin: 5px 0;
+  border: none;
+  padding: 12px;
+  margin: 10px 0;
   text-align: center;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: background-color 0.3s;
 }
+
+#submit:hover {
+  background-color: #003366;
+}
+
+#submit:active {
+  background-color: #002244;
+  transform: scale(0.98);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.divider span {
+  padding: 0 10px;
+  color: #666;
+  font-size: 14px;
+}
+
+.g_id_signin {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.login {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
 #login {
-  margin-top: 10px;
+  color: #001e4d;
   text-decoration: none;
-  font-size: 18px;
+  font-weight: 600;
+  transition: color 0.3s;
 }
-button:active {
-  background-color: #535754;
-  transform: scale(0.95);
+
+#login:hover {
+  color: #003366;
 }
