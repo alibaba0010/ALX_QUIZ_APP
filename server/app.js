@@ -7,6 +7,7 @@ import userRouter from "./routes/userRouter";
 import dotenv from "dotenv";
 import { errorHandler } from "./errors/error";
 import { routeError } from "./errors/route.error";
+
 dotenv.config();
 
 const corsOptions = {
