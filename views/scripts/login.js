@@ -72,37 +72,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Google Sign-In functionality
 // Google Sign-In functionality
-function handleCredentialResponse(response) {
-  console.log("In response");
-  const id_token = response.credential;
+// function handleCredentialResponse(response) {
+//   console.log("In response");
+//   const id_token = response.credential;
 
-  fetch("http://127.0.0.1:5000/api/v1/user/google", {
-    method: "GET",
-    credentials: "include",
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        window.location.href = "./components/profile.html";
-      } else {
-        alert("Google sign-in failed: " + (data.message || "Unknown error"));
-      }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      alert("An error occurred during Google sign-in");
-    });
-}
+//   fetch("http://127.0.0.1:5000/api/v1/user/google", {
+//     method: "GET",
+//     credentials: "include",
+//   })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       if (data.success) {
+//         window.location.href = "./components/profile.html";
+//       } else {
+//         alert("Google sign-in failed: " + (data.message || "Unknown error"));
+//       }
+//     })
+//     .catch((error) => {
+//       console.error("Error:", error);
+//       alert("An error occurred during Google sign-in");
+//     });
+// }
 
 // Initialize Google Sign-In
 window.onload = function () {
-  google.accounts.id.initialize({
-    client_id:
-      "927889267460-lpv6m59dtuknfsbij1ivrgrhtfc6l923.apps.googleusercontent.com",
-    callback: handleCredentialResponse,
-  });
-  google.accounts.id.renderButton(document.getElementById("google-signin"), {
-    theme: "outline",
-    size: "large",
-  });
+  // google.accounts.id.initialize({
+  //   client_id:
+  //     "927889267460-lpv6m59dtuknfsbij1ivrgrhtfc6l923.apps.googleusercontent.com",
+  //   callback: handleCredentialResponse,
+  // });
+  // google.accounts.id.renderButton(document.getElementById("google-signin"), {
+  //   theme: "outline",
+  //   size: "large",
+  // });
 };
+document
+  .getElementById("google-signin")
+  .click(() => (window.href = "http://localhost:5000/api/user/google"));

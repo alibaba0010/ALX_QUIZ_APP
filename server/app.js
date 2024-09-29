@@ -7,7 +7,7 @@ import userRouter from "./routes/userRouter";
 import dotenv from "dotenv";
 import { errorHandler } from "./errors/error";
 import { routeError } from "./errors/route.error";
-
+import path from "path";
 dotenv.config();
 
 const corsOptions = {
@@ -32,5 +32,4 @@ app
 
   .use(routeError)
   .use(errorHandler);
-
 export default app;
