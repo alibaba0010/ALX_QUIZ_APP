@@ -34,7 +34,7 @@ document
       const result = await response.json();
       // handle response
       if (result.data) {
-        window.location.href = "../components/quiz.html";
+        window.location.href = "../components/profile.html";
       } else {
         alert(result.msg);
       }

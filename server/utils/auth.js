@@ -7,13 +7,13 @@ import User from "../models/userDB";
 export const authenticateUser = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   let token;
-  console.log("In authenticateUser", req.session);
-  console.log("In authenticateUser2", authHeader);
-  console.log("In authenticateUser3", req.session);
+  // console.log("In authenticateUser", req.session);
+  // console.log("In authenticateUser2", authHeader);
 
   if (req.session.jwt) {
     token = req.session.jwt;
   } else if (authHeader) {
+    ``;
     if (authHeader.startsWith("Bearer ")) token = authHeader.split(" ")[1];
   } else {
     throw new UnauthenticatedError("Please login in again");
