@@ -25,6 +25,8 @@ app
       maxAge: 24 * 60 * 60 * 5000,
     })
   )
+  .use(passport.initialize())
+  .use(passport.session())
   .use("/api/v1/user", userRouter)
 
   .use(routeError)

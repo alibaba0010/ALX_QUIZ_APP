@@ -71,16 +71,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Google Sign-In functionality
+// Google Sign-In functionality
 function handleCredentialResponse(response) {
-  console.log("In response: ", response);
+  console.log("In response");
   const id_token = response.credential;
 
   fetch("http://127.0.0.1:5000/api/v1/user/google", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ id_token: id_token }),
+    method: "GET",
     credentials: "include",
   })
     .then((response) => response.json())
@@ -104,7 +101,7 @@ window.onload = function () {
       "927889267460-lpv6m59dtuknfsbij1ivrgrhtfc6l923.apps.googleusercontent.com",
     callback: handleCredentialResponse,
   });
-  google.accounts.id.renderButton(document.getElementById("g_id_signin"), {
+  google.accounts.id.renderButton(document.getElementById("google-signin"), {
     theme: "outline",
     size: "large",
   });
