@@ -17,6 +17,7 @@ const corsOptions = {
 };
 const app = express();
 app
+  .set("view engine", "ejs")
   .use(cors(corsOptions))
   .use(json())
   .use(
