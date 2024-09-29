@@ -1,6 +1,7 @@
 import express, { json } from "express";
 import "express-async-errors";
 import cookieSession from "cookie-session";
+import passport from "passport";
 import cors from "cors";
 import userRouter from "./routes/userRouter";
 import dotenv from "dotenv";
