@@ -3,15 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Past Question</title>
+    <title>Past Quiz Results - ALX Quiz App</title>
     <link rel="stylesheet" type="text/css" href="../styles/past-question.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
-    <div id="main-body"></div>
-    <div id="quiz-container"></div>
-    <!-- <div id="main-btn">
-      <button id="next-btn" type="button">Go to Profile</button>
-    </div> -->
+    <div class="container">
+      <header>
+        <h1>Past Quiz Results</h1>
+      </header>
+      <main>
+        <div id="loading" class="loading">
+          <div class="spinner"></div>
+          <p>Loading past quiz results...</p>
+        </div>
+        <div id="quiz-container" class="quiz-container"></div>
+      </main>
+      <footer>
+        <button id="profile-btn" class="btn btn-primary" type="button">
+          <i data-lucide="user"></i>
+          Go to Profile
+        </button>
+      </footer>
+    </div>
     <script src="../scripts/past-question.js"></script>
   </body>
 </html>

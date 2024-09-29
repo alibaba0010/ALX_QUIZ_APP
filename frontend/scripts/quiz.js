@@ -86,11 +86,11 @@ function showTime(datalength) {
   return;
 }
 function stopTimer() {
-  console.log("In here");
   clearInterval(timer);
   timeDisplay.innerHTML = "00:00";
   quizContainer.style.display = "none";
   loadingElement.style.display = "block";
+  loadQuestion.innerHTML = "Loading Reasult...";
 }
 function convertToMinutesAndSeconds(totalSeconds) {
   const minutes = Math.floor(totalSeconds / 60);
@@ -231,7 +231,7 @@ function checkMultipleChoice() {
   const currentQuestion = quizData[0][currentQuestionIndex];
   const currentChoice = currentQuestion.multiple_correct_answers;
   multiple_correct_answer.style.display =
-    currentChoice === true ? "block" : "none";
+    currentChoice === "true" ? "block" : "none";
 }
 function storeQuizQuestion(userId, result) {
   try {
