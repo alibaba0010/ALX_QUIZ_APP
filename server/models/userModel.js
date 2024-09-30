@@ -38,3 +38,8 @@ export const checkEmail = async (email) => {
     throw new BadRequestError("Email or name already exists");
   return checkEmailExist;
 };
+export const checkEmailGoogle = async (email) => {
+  const checkEmailExist = await User.findOne({ email });
+
+  return checkEmailExist;
+};

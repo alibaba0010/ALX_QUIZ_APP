@@ -158,39 +158,10 @@ class UsersController {
   };
   static registerGoogleUser = async (request, response) => {
     try {
-      const result = request.body;
-
-      result.isGoogle = true;
-
-      const { token } = result;
-
-      if (!token) {
-        throw new BadRequestError("Bad request");
-      }
-
-      const { data } = await axios.get(
-        "https://www.googleapis.com/oauth2/v3/userinfo",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const { name, email, picture } = data;
-      const user = await checkEmail(email);
+      const { username, email } = request.body;
+      const user = await checkEmailGoogle(email);
       if (user) {
-        response.redirect("/login");
       }
-      const username = name.replace(/\s/g, "");
-      const password = "password123$";
-      const user1 = await User.create({ username, email, password });
-      const data1 = {
-        username: user1.username,
-        email: user.email,
-        id: user._id,
-        picture,
-      };
-      response.status(StatusCodes.CREATED).json({ data: data1 });
     } catch (error) {
       console.error("Error in Google sign-in:", error);
       return response
