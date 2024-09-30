@@ -38,14 +38,14 @@ class UsersController {
   // FOR CREATOR
   static async httpAddNewCreator(request, response) {
     const creator = request.body;
-    creator.isCreator = true;
-    const { name, email, password, confirmPassword, isCreator } = creator;
+    creator.isGoogle = true;
+    const { name, email, password, confirmPassword, isGoogle } = creator;
 
     comparePassword(password, confirmPassword);
 
     requiredFields(name, email, password, confirmPassword);
     await checkIfExists(email, name);
-    const user = await User.create({ name, email, password, isCreator });
+    const user = await User.create({ name, email, password, isGoogle });
     response
       .status(StatusCodes.CREATED)
       .json({ name: user.name, email: user.email, id: user._id });
@@ -76,7 +76,7 @@ class UsersController {
     const { userId } = request.user;
     const user = await findUser(userId);
 
-    const { username, id, email, isCreator } = user;
+    const { username, id, email, isGoogle } = user;
     const data = { username, id, email };
 
     return response.status(StatusCodes.OK).json({ data });

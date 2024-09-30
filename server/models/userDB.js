@@ -33,7 +33,7 @@ const UserSchema = new Schema(
       type: Number,
       default: 0,
     },
-    isCreator: {
+    isGoogle: {
       type: Boolean,
       default: false,
     },
@@ -51,7 +51,7 @@ UserSchema.pre("save", async function (next) {
 
 UserSchema.methods.createJWT = async function () {
   const signInToken = jwt.sign(
-    { userId: this._id, isCreator: this.isCreator },
+    { userId: this._id, isGoogle: this.isGoogle },
     process.env.JWT_SEC,
     {
       expiresIn: exp,

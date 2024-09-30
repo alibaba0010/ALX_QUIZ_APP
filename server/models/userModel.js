@@ -22,7 +22,7 @@ export const checkIfExists = async (username, email) => {
 export const checkCreator = async (userId) => {
   const user = await User.findById(userId);
 
-  if (user.isCreator !== true)
+  if (user.isGoogle !== true)
     throw new UnAuthorizedError("Only creator is ascessible");
 };
 

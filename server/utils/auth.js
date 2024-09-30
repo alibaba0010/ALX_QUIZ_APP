@@ -7,9 +7,6 @@ import User from "../models/userDB";
 export const authenticateUser = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   let token;
-  // console.log("In authenticateUser", req.session);
-  // console.log("In authenticateUser2", authHeader);
-
   if (req.session.jwt) {
     token = req.session.jwt;
   } else if (authHeader) {
@@ -20,7 +17,7 @@ export const authenticateUser = async (req, res, next) => {
   }
   try {
     const decode = jwt.verify(token, process.env.JWT_SEC);
-    req.user = { userId: decode.userId, isCreator: decode.isCreator };
+    req.user = { userId: decode.userId, isGoogle: decode.isGoogle };
 
     next();
   } catch (err) {
@@ -45,7 +42,7 @@ export async function verifyCreator(req, res, next) {
   if (!user) {
     throw new UnauthenticatedError("User not authenticated");
   }
-  if (user.isCreator === true) {
+  if (user.isGoogle === true) {
     next();
   } else {
     throw new UnAuthorizedError("Only creator is ascessible");
