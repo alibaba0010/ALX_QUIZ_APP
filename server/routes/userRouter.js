@@ -1,5 +1,4 @@
 import { Router } from "express";
-import passport from "passport";
 import UsersController from "../controllers/user.controller";
 import { authenticateUser, verifyUser } from "../utils/auth";
 
@@ -11,6 +10,8 @@ userRouter
   .get("/", authenticateUser, verifyUser, UsersController.showCurrentUser)
   .get("/quiz", authenticateUser, verifyUser, UsersController.showQuiz)
   .get("/logout", authenticateUser, verifyUser, UsersController.logOutUser)
+  .get("/google/register", UsersController.registerGoogleUser)
+  .get("/google/login", UsersController.loginGoogleUser)
   .post(
     "/questions",
     authenticateUser,
@@ -24,15 +25,6 @@ userRouter
     verifyUser,
     UsersController.updateUserScore
   )
-  .get("/result", authenticateUser, verifyUser, UsersController.showUserScore)
-  .get(
-    "/google",
-    passport.authenticate("google", { scope: ["profile", "email"] })
-  )
-  .get(
-    "/google/redirect",
-    passport.authenticate("google", { failureRedirect: "/" }),
-    UsersController.googleRedirect
-  );
+  .get("/result", authenticateUser, verifyUser, UsersController.showUserScore);
 
 export default userRouter;

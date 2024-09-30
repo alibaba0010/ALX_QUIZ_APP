@@ -156,14 +156,8 @@ class UsersController {
 
     response.status(StatusCodes.OK).json({ score });
   };
-  static googleRedirect = async (req, res) => {
-    // const token = await user.createJWT();
-    const token = "ssssssssssssssssssssssssssssssss";
-    request.session = {
-      jwt: token,
-    };
-    res.redirect("/");
-  };
+  static registerGoogleUser = async (request, response) => {};
+  static loginGoogleUser = async (request, response) => {};
 }
 
 export default UsersController;
