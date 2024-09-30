@@ -112,11 +112,14 @@ async function getGoogleSignIn() {
   if (token) {
     console.log("In token");
     googleSignIn = true;
-    let data = await fetch("https:/www.googleapis.com/oauth2/v3/userinfo", {
-      headers: {
-        Authorization: `Bearer ${token["access_token"]}`,
-      },
-    });
+    let data = await fetch(
+      "http://127.0.0.1:5000/api/v1/user/google/register",
+      {
+        method: "POST",
+        body: JSON.stringify({ token }),
+        credentials: "include",
+      }
+    );
     data = await data.json();
     console.log("Data:", data);
     user.innerHTML = data.name;

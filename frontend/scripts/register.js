@@ -1,3 +1,5 @@
+const clientId =
+  "927889267460-lpv6m59dtuknfsbij1ivrgrhtfc6l923.apps.googleusercontent.com";
 function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
