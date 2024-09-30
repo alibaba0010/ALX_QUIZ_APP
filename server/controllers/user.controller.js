@@ -156,7 +156,34 @@ class UsersController {
 
     response.status(StatusCodes.OK).json({ score });
   };
-  static registerGoogleUser = async (request, response) => {};
+  static registerGoogleUser = async (request, response) => {
+    try {
+      const { token } = request.body;
+
+      if (!token) {
+        throw new BadRequestError("Bad request");
+      }
+
+      // Fetch user info from Google
+      const { data } = await axios.get(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+
+      console.log("Google User Data:", data);
+      response.status(StatusCodes.CREATED).json({ msg: "Succesfully" });
+    } catch (error) {
+      console.error("Error in Google sign-in:", error);
+      return response
+        .status(500)
+        .json({ msg: "Internal server error during Google sign-in" });
+    }
+  };
+
   static loginGoogleUser = async (request, response) => {};
 }
 
