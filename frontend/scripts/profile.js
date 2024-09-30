@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   await getGoogleSignIn();
   setupEventListeners();
 });
+const profilePicture = document.getElementById("profile-piccs");
 let googleSignIn = false;
 
 const user = document.getElementById("username");
@@ -25,6 +26,7 @@ async function loadUser() {
   } catch (error) {
     console.error("Error loading user data:", error);
     alert("An error occurred while loading user data");
+    window.location.href = "../index.html";
   }
 }
 
@@ -110,7 +112,6 @@ async function getGoogleSignIn() {
 
   let token = JSON.parse(localStorage.getItem("jwt"));
   if (token) {
-    console.log("In token");
     googleSignIn = true;
     let data = await fetch("https:/www.googleapis.com/oauth2/v3/userinfo", {
       headers: {
@@ -118,10 +119,12 @@ async function getGoogleSignIn() {
       },
     });
     data = await data.json();
-    console.log("Data:", data);
     const username = data.name.replace(/\s/g, "");
     const email = data.email;
+    const picture = data.picture;
     user.innerHTML = username;
+    profilePicture.src = picture;
+    profilePicture.alt = `${username}'s profile picture`;
     // loadQuizHistory(result.data.quizHistory);
 
     const response = await fetch(
@@ -132,12 +135,13 @@ async function getGoogleSignIn() {
         body: JSON.stringify({
           username,
           email,
+          picture,
         }),
         credentials: "include",
       }
     );
     const result = await response.json();
-    if (result.messgae) {
+    if (result.msg) {
       const response = await fetch(
         "http://127.0.0.1:5000/api/v1/user/google/login",
         {
@@ -150,9 +154,7 @@ async function getGoogleSignIn() {
         }
       );
       const result = await response.json();
-      if (result.data) {
-        console.log("In profile already");
-      } else {
+      if (!result.data) {
         window.location.href = "../index.html";
       }
     } else if (result.data) {
