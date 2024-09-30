@@ -6,7 +6,7 @@ import BadRequestError from "../errors/badRequest";
 import notFoundError from "../errors/notFound";
 import UnAuthenticatedError from "../errors/unaunthenticated";
 import {
-  checkCreator,
+  checkEmailGoogle,
   checkIfExists,
   comparePassword,
   findUser,
@@ -67,7 +67,7 @@ class UsersController {
       email: user.email,
       id: user._id,
     };
-    response.setHeader("Authorization", `Bearer ${token}`);
+    // response.setHeader("Authorization", `Bearer ${token}`);
     response.status(StatusCodes.OK).json({ data });
   }
 
@@ -159,9 +159,18 @@ class UsersController {
   static registerGoogleUser = async (request, response) => {
     try {
       const { username, email } = request.body;
+      const password = "password123$";
       const user = await checkEmailGoogle(email);
       if (user) {
+        response.json({ message: "User already exists" });
       }
+      const user1 = await User.create({ username, email, password });
+      const data = {
+        username: user1.username,
+        email: user1.email,
+        id: user._id,
+      };
+      response.status(StatusCodes.CREATED).json({ data });
     } catch (error) {
       console.error("Error in Google sign-in:", error);
       return response
@@ -171,10 +180,18 @@ class UsersController {
   };
 
   static loginGoogleUser = async (request, response) => {
-    console.log("Inhererrer");
-    response
-      .status(400)
-      .json({ msg: "Internal server error during Google sign-in" });
+    const { email } = request.body;
+    const user = await checkEmail(email);
+    const token = await user.createJWT();
+    request.session = {
+      jwt: token,
+    };
+    const data = {
+      username: user.username,
+      email: user.email,
+      id: user._id,
+    };
+    response.status(StatusCodes.OK).json({ data });
   };
 }
 
