@@ -76,8 +76,8 @@ class UsersController {
     const { userId } = request.user;
     const user = await findUser(userId);
 
-    const { username, id, email, isGoogle } = user;
-    const data = { username, id, email };
+    const { username, id, email, isGoogle, picture } = user;
+    const data = { username, id, email, picture };
 
     return response.status(StatusCodes.OK).json({ data });
   };
@@ -157,13 +157,13 @@ class UsersController {
     response.status(StatusCodes.OK).json({ score });
   };
   static registerGoogleUser = async (request, response) => {
-    const { username, email } = request.body;
+    const { username, email, picture } = request.body;
     const password = "password123$";
     const user = await checkEmailGoogle(email);
     if (user) {
       throw new BadRequestError("Email already exists");
     } else {
-      const user1 = await User.create({ username, email, password });
+      const user1 = await User.create({ username, email, password, picture });
       const data = {
         username: user1.username,
         email: user1.email,
