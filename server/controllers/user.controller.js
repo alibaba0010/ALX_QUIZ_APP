@@ -157,25 +157,19 @@ class UsersController {
     response.status(StatusCodes.OK).json({ score });
   };
   static registerGoogleUser = async (request, response) => {
-    try {
-      const { username, email } = request.body;
-      const password = "password123$";
-      const user = await checkEmailGoogle(email);
-      if (user) {
-        response.json({ message: "User already exists" });
-      }
+    const { username, email } = request.body;
+    const password = "password123$";
+    const user = await checkEmailGoogle(email);
+    if (user) {
+      throw new BadRequestError("Email already exists");
+    } else {
       const user1 = await User.create({ username, email, password });
       const data = {
         username: user1.username,
         email: user1.email,
-        id: user._id,
+        id: user1._id,
       };
       response.status(StatusCodes.CREATED).json({ data });
-    } catch (error) {
-      console.error("Error in Google sign-in:", error);
-      return response
-        .status(500)
-        .json({ msg: "Internal server error during Google sign-in" });
     }
   };
 

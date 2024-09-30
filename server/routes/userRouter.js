@@ -11,7 +11,7 @@ userRouter
   .get("/quiz", authenticateUser, verifyUser, UsersController.showQuiz)
   .get("/logout", authenticateUser, verifyUser, UsersController.logOutUser)
   .post("/google/register", UsersController.registerGoogleUser)
-  .get("/google/login", UsersController.loginGoogleUser)
+  .post("/google/login", UsersController.loginGoogleUser)
   .post(
     "/questions",
     authenticateUser,
