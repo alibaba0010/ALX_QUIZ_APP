@@ -51,16 +51,16 @@ function loadQuizHistory(quizHistory) {
   }
 }
 
-document.getElementById("start-quiz").addEventListener("click", startQuiz);
 function setupEventListeners() {
   document
     .getElementById("last-quiz-btn")
     .addEventListener("click", showLastQuiz);
   document.getElementById("log-out").addEventListener("click", logOut);
+  document.getElementById("start-quiz").addEventListener("click", startQuiz);
 }
 
-function startQuiz() {
-  // event.preventDefault();
+function startQuiz(event) {
+  event.preventDefault();
   clearLocalStorage(userId);
   window.location.href = "../components/quiz.html";
 }
@@ -169,5 +169,5 @@ async function getGoogleSignIn() {
     await loadUser();
   }
   googleSignIn = false;
-  localStorage.clear();
+  localStorage.removeItem("jwt");
 }

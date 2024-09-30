@@ -328,19 +328,6 @@ function updateURLWithQuestionId(questionId) {
   window.history.pushState({}, "", url);
 }
 
-function clearLocalStorage() {
-  try {
-    // Clear all items from localStorage and and array
-    localStorage.clear();
-
-    return true;
-  } catch (error) {
-    // Log the error if something goes wrong
-    console.error("Error clearing localStorage:", error);
-    return false;
-  }
-}
-
 async function saveScore(result) {
   await getScore();
 
