@@ -1,24 +1,40 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   lucide.createIcons();
+  await getGoogleSignIn();
   loadUser();
   setupEventListeners();
 });
-
+let googleSignIn = false;
+const user = document.getElementById("username");
 async function loadUser() {
+  console.log("In here");
   try {
-    const response = await fetch("http://127.0.0.1:5000/api/v1/user/", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    });
-    const result = await response.json();
-    if (result.data) {
-      document.title = `${result.data.username}'s Profile - ALX Quiz App`;
-      document.getElementById("username").textContent = result.data.username;
-      loadQuizHistory(result.data.quizHistory);
+    console.log("In here 3333: ", googleSignIn);
+    if (googleSignIn) {
+      console.log("In here 3333");
+      const data = getGoogleSignIn();
+      if (data) {
+        googleSignIn = false;
+        const result = await data;
+        console.log("Google Sign: ", result);
+        user.innerHTML = result.name;
+        // loadQuizHistory(result.data.quizHistory);
+      }
     } else {
-      window.location.href = "../index.html";
-      alert(result.msg || "Failed to load user data");
+      const response = await fetch("http://127.0.0.1:5000/api/v1/user/", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+      const result = await response.json();
+      if (result.data) {
+        document.title = `${result.data.username}'s Profile - ALX Quiz App`;
+        user.textContent = result.data.username;
+        loadQuizHistory(result.data.quizHistory);
+      } else {
+        window.location.href = "../index.html";
+        alert(result.msg || "Failed to load user data");
+      }
     }
   } catch (error) {
     console.error("Error loading user data:", error);
@@ -93,4 +109,30 @@ function clearLocalStorage() {
     console.error("Error clearing localStorage:", error);
     return false;
   }
+}
+async function getGoogleSignIn() {
+  let params = {};
+  let regex = /([^&=]+)=([^&]*)/g,
+    m;
+  while ((m = regex.exec(location.href))) {
+    params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+  }
+  if (Object.keys(params).length > 0) {
+    localStorage.setItem("jwt", JSON.stringify(params));
+  }
+  window.history.pushState({}, document.title, "/" + "components/profile.html");
+
+  let token = JSON.parse(localStorage.getItem("jwt"));
+  if (token) {
+    googleSignIn = true;
+  }
+
+  let data = await fetch("https:/www.googleapis.com/oauth2/v3/userinfo", {
+    headers: {
+      Authorization: `Bearer ${token["access_token"]}`,
+    },
+  });
+  data = await data.json();
+
+  return data;
 }

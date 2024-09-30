@@ -7,7 +7,6 @@ import userRouter from "./routes/userRouter";
 import dotenv from "dotenv";
 import { errorHandler } from "./errors/error";
 import { routeError } from "./errors/route.error";
-import path from "path";
 dotenv.config();
 
 const corsOptions = {
@@ -17,7 +16,6 @@ const corsOptions = {
 };
 const app = express();
 app
-  .set("view engine", "ejs")
   .use(cors(corsOptions))
   .use(json())
   .use(

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ALX Quiz App</title>
     <link rel="stylesheet" href="./styles/login.css" />
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
@@ -57,12 +57,14 @@
       <div class="divider">
         <span>OR</span>
       </div>
-      <div
-        id="g_id_onload"
-        data-client_id="927889267460-lpv6m59dtuknfsbij1ivrgrhtfc6l923.apps.googleusercontent.com"
-        data-callback="handleCredentialResponse"
-      ></div>
-      <div class="g_id_signin" id="google-signin" data-type="standard"></div>
+      <button id="custom-google-signin" class="google-signin-button">
+        <img
+          src="https://developers.google.com/identity/images/g-logo.png"
+          alt="Google logo"
+          class="google-icon"
+        />
+        Sign in with Google
+      </button>
       <div class="register">
         Not a User?
         <a href="./components/register.html" id="register"> Register </a>
