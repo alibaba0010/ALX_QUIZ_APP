@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 const profilePicture = document.getElementById("profile-piccs");
 let googleSignIn = false;
-
+let userId = "";
 const user = document.getElementById("username");
 async function loadUser() {
   try {
@@ -15,9 +15,11 @@ async function loadUser() {
       credentials: "include",
     });
     const result = await response.json();
+    const { username, id } = result.data;
     if (result.data) {
-      document.title = `${result.data.username}'s Profile - ALX Quiz App`;
-      user.innerHTML = result.data.username;
+      document.title = `${username}'s Profile - ALX Quiz App`;
+      user.innerHTML = username;
+      userId = id;
       loadQuizHistory(result.data.quizHistory);
     } else {
       window.location.href = "../index.html";
@@ -49,17 +51,17 @@ function loadQuizHistory(quizHistory) {
   }
 }
 
+document.getElementById("start-quiz").addEventListener("click", startQuiz);
 function setupEventListeners() {
-  document.getElementById("start-quiz").addEventListener("click", startQuiz);
   document
     .getElementById("last-quiz-btn")
     .addEventListener("click", showLastQuiz);
   document.getElementById("log-out").addEventListener("click", logOut);
 }
 
-function startQuiz(event) {
-  event.preventDefault();
-  clearLocalStorage();
+function startQuiz() {
+  // event.preventDefault();
+  clearLocalStorage(userId);
   window.location.href = "../components/quiz.html";
 }
 
@@ -89,9 +91,9 @@ async function logOut(event) {
   }
 }
 
-function clearLocalStorage() {
+function clearLocalStorage(userId) {
   try {
-    localStorage.clear();
+    localStorage.removeItem(`quiz_${userId}`);
     return true;
   } catch (error) {
     console.error("Error clearing localStorage:", error);
