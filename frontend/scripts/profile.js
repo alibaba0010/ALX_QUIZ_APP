@@ -1,40 +1,26 @@
 document.addEventListener("DOMContentLoaded", async () => {
   lucide.createIcons();
   await getGoogleSignIn();
-  loadUser();
   setupEventListeners();
 });
 let googleSignIn = false;
+
 const user = document.getElementById("username");
 async function loadUser() {
-  console.log("In here");
   try {
-    console.log("In here 3333: ", googleSignIn);
-    if (googleSignIn) {
-      console.log("In here 3333");
-      const data = getGoogleSignIn();
-      if (data) {
-        googleSignIn = false;
-        const result = await data;
-        console.log("Google Sign: ", result);
-        user.innerHTML = result.name;
-        // loadQuizHistory(result.data.quizHistory);
-      }
+    const response = await fetch("http://127.0.0.1:5000/api/v1/user/", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    const result = await response.json();
+    if (result.data) {
+      document.title = `${result.data.username}'s Profile - ALX Quiz App`;
+      user.innerHTML = result.data.username;
+      loadQuizHistory(result.data.quizHistory);
     } else {
-      const response = await fetch("http://127.0.0.1:5000/api/v1/user/", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
-      const result = await response.json();
-      if (result.data) {
-        document.title = `${result.data.username}'s Profile - ALX Quiz App`;
-        user.textContent = result.data.username;
-        loadQuizHistory(result.data.quizHistory);
-      } else {
-        window.location.href = "../index.html";
-        alert(result.msg || "Failed to load user data");
-      }
+      window.location.href = "../index.html";
+      alert(result.msg || "Failed to load user data");
     }
   } catch (error) {
     console.error("Error loading user data:", error);
@@ -124,15 +110,20 @@ async function getGoogleSignIn() {
 
   let token = JSON.parse(localStorage.getItem("jwt"));
   if (token) {
+    console.log("In token");
     googleSignIn = true;
+    let data = await fetch("https:/www.googleapis.com/oauth2/v3/userinfo", {
+      headers: {
+        Authorization: `Bearer ${token["access_token"]}`,
+      },
+    });
+    data = await data.json();
+    console.log("Data:", data);
+    user.innerHTML = data.name;
+    // loadQuizHistory(result.data.quizHistory);
+  } else {
+    await loadUser();
   }
-
-  let data = await fetch("https:/www.googleapis.com/oauth2/v3/userinfo", {
-    headers: {
-      Authorization: `Bearer ${token["access_token"]}`,
-    },
-  });
-  data = await data.json();
-
-  return data;
+  googleSignIn = false;
+  localStorage.clear();
 }

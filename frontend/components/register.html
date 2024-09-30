@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Registration - ALX Quiz App</title>
     <link rel="stylesheet" href="../styles/register.css" />
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
@@ -88,13 +87,18 @@
         <span>OR</span>
       </div>
 
-      <div
-        id="g_id_onload"
-        data-client_id="YOUR_GOOGLE_CLIENT_ID"
-        data-callback="handleCredentialResponse"
-        data-context="signup"
-      ></div>
-      <div class="g_id_signin" data-type="standard"></div>
+      <button
+        type="button"
+        id="custom-google-signin"
+        class="google-signin-button"
+      >
+        <img
+          src="https://developers.google.com/identity/images/g-logo.png"
+          alt="Google logo"
+          class="google-icon"
+        />
+        Sign Up with Google
+      </button>
 
       <div class="login">
         Already a User?

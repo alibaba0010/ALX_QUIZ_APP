@@ -83,44 +83,37 @@ document.addEventListener("DOMContentLoaded", function () {
       lucide.createIcons();
     });
   });
+  // Custom Google Sign-In button
+  document
+    .getElementById("custom-google-signin")
+    .addEventListener("click", function () {
+      googleSignIn();
+    });
 });
 
-// Google Sign-Up functionality
-function handleCredentialResponse(response) {
-  const id_token = response.credential;
+function googleSignIn() {
+  let oauthEndPoint = "https://accounts.google.com/o/oauth2/v2/auth";
+  // form to submit parameters to OAuth 2.0 endpoint
+  let form = document.createElement("form");
+  form.setAttribute("method", "GET");
+  form.setAttribute("action", oauthEndPoint);
 
-  fetch("http://127.0.0.1:5000/api/v1/user/google-signup", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ id_token: id_token }),
-    credentials: "include",
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        console.log("Google sign-up successful");
-        window.location.href = "../index.html";
-      } else {
-        alert("Google sign-up failed: " + (data.message || "Unknown error"));
-      }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      alert("An error occurred during Google sign-up");
-    });
+  let params = {
+    client_id: clientId,
+    redirect_uri: "http://127.0.0.1:5501/components/profile.html",
+    response_type: "token",
+    scope: "openid profile email",
+    include_grant_scopes: true,
+    state: "pass_through_value",
+  };
+
+  for (const key in params) {
+    let input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("name", key);
+    input.setAttribute("value", params[key]);
+    form.appendChild(input);
+  }
+  document.body.appendChild(form);
+  form.submit();
 }
-
-// Initialize Google Sign-In
-window.onload = function () {
-  google.accounts.id.initialize({
-    client_id: "YOUR_GOOGLE_CLIENT_ID",
-    callback: handleCredentialResponse,
-  });
-  google.accounts.id.renderButton(document.getElementById("g_id_signin"), {
-    theme: "outline",
-    size: "large",
-    text: "signup_with",
-  });
-};
