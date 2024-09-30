@@ -158,24 +158,39 @@ class UsersController {
   };
   static registerGoogleUser = async (request, response) => {
     try {
-      const { token } = request.body;
+      const result = request.body;
+
+      result.isGoogle = true;
+
+      const { token } = result;
 
       if (!token) {
         throw new BadRequestError("Bad request");
       }
 
-      // Fetch user info from Google
       const { data } = await axios.get(
         "https://www.googleapis.com/oauth2/v3/userinfo",
         {
           headers: {
-            Authorization: `Bearer ${access_token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-
-      console.log("Google User Data:", data);
-      response.status(StatusCodes.CREATED).json({ msg: "Succesfully" });
+      const { name, email, picture } = data;
+      const user = await checkEmail(email);
+      if (user) {
+        response.redirect("/login");
+      }
+      const username = name.replace(/\s/g, "");
+      const password = "password123$";
+      const user1 = await User.create({ username, email, password });
+      const data1 = {
+        username: user1.username,
+        email: user.email,
+        id: user._id,
+        picture,
+      };
+      response.status(StatusCodes.CREATED).json({ data: data1 });
     } catch (error) {
       console.error("Error in Google sign-in:", error);
       return response
@@ -184,7 +199,12 @@ class UsersController {
     }
   };
 
-  static loginGoogleUser = async (request, response) => {};
+  static loginGoogleUser = async (request, response) => {
+    console.log("Inhererrer");
+    response
+      .status(400)
+      .json({ msg: "Internal server error during Google sign-in" });
+  };
 }
 
 export default UsersController;

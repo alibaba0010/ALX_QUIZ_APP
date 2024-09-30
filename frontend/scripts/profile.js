@@ -112,18 +112,55 @@ async function getGoogleSignIn() {
   if (token) {
     console.log("In token");
     googleSignIn = true;
-    let data = await fetch(
+    let data = await fetch("https:/www.googleapis.com/oauth2/v3/userinfo", {
+      headers: {
+        Authorization: `Bearer ${token["access_token"]}`,
+      },
+    });
+    data = await data.json();
+    console.log("Data:", data);
+    const username = data.name.replace(/\s/g, "");
+    const email = data.email;
+    user.innerHTML = username;
+    // loadQuizHistory(result.data.quizHistory);
+
+    const response = await fetch(
       "http://127.0.0.1:5000/api/v1/user/google/register",
       {
         method: "POST",
-        body: JSON.stringify({ token }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username,
+          email,
+        }),
         credentials: "include",
       }
     );
-    data = await data.json();
-    console.log("Data:", data);
-    user.innerHTML = data.name;
-    // loadQuizHistory(result.data.quizHistory);
+    const result = await response.json();
+    if (result.messgae) {
+      const response = await fetch(
+        "http://127.0.0.1:5000/api/v1/user/google/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email,
+          }),
+          credentials: "include",
+        }
+      );
+      const result = await response.json();
+      if (result.data) {
+        console.log("In profile already");
+      } else {
+        window.location.href = "../index.html";
+      }
+    } else if (result.data) {
+      window.location.href = "../index.html";
+    } else {
+      alert("Failed to register user");
+      window.location.href = "../index.html";
+    }
   } else {
     await loadUser();
   }
