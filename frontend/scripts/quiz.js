@@ -66,9 +66,6 @@ function showTime(datalength) {
   function updateTime() {
     const dataLength = datalength - 1;
     if (currentQuestionIndex >= dataLength) {
-      console.log("Hello world");
-      // clearInterval(timer);
-      // stopTimer();
     } else if (timeLeft <= 0) {
       alert("Time's up!");
       stopTimer();
@@ -85,12 +82,14 @@ function showTime(datalength) {
   // Return a function to stop the timer from outside if needed
   return;
 }
+const loading = document.getElementById("spinner-element");
 function stopTimer() {
   clearInterval(timer);
   timeDisplay.innerHTML = "00:00";
-  quizContainer.style.display = "none";
+  console.log("Element: ", questionElement.innerHTML);
+  questionElement.innerHTML = " ";
   loadingElement.style.display = "block";
-  loadQuestion.innerHTML = "Loading Reasult...";
+  loading.innerHTML = "Loading Quiz Result...";
 }
 function convertToMinutesAndSeconds(totalSeconds) {
   const minutes = Math.floor(totalSeconds / 60);
@@ -102,6 +101,7 @@ function convertToMinutesAndSeconds(totalSeconds) {
   return `${formattedMinutes}:${formattedSeconds}`;
 }
 async function loadQuestion() {
+  console.log("Element: ", questionElement.innerHTML);
   resetState();
   const currentQuestion = await quizData[0][currentQuestionIndex];
   updateURLWithQuestionId(currentQuestion.id);
