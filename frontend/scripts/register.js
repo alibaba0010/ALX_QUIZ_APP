@@ -1,5 +1,8 @@
 const clientId =
   "927889267460-lpv6m59dtuknfsbij1ivrgrhtfc6l923.apps.googleusercontent.com";
+
+const DEPLOYED_URL = "https://alx-quiz-app.onrender.com";
+let LOCAL_URL = "http://127.0.0.1:5000";
 function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
@@ -39,20 +42,17 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Passwords do not match");
       } else {
         try {
-          const response = await fetch(
-            "http://127.0.0.1:5000/api/v1/user/register",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                username,
-                email,
-                password,
-                confirmPassword,
-              }),
-              credentials: "include",
-            }
-          );
+          const response = await fetch(`${DEPLOYED_URL}/api/v1/user/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              username,
+              email,
+              password,
+              confirmPassword,
+            }),
+            credentials: "include",
+          });
 
           const result = await response.json();
           if (result.data) {
