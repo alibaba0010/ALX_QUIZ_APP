@@ -1,3 +1,5 @@
+const DEPLOYED_URL = "https://alx-quiz-app.onrender.com";
+let LOCAL_URL = "http://127.0.0.1:5000";
 document.addEventListener("DOMContentLoaded", () => {
   lucide.createIcons();
   loadUser();
@@ -5,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const profilePicture = document.getElementById("profile-pic");
 async function loadUser() {
   try {
-    const response = await fetch("http://127.0.0.1:5000/api/v1/user/", {
+    const response = await fetch(`${DEPLOYED_URL}/api/v1/user/`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
