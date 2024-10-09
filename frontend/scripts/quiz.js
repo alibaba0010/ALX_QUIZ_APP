@@ -101,7 +101,6 @@ function convertToMinutesAndSeconds(totalSeconds) {
   return `${formattedMinutes}:${formattedSeconds}`;
 }
 async function loadQuestion() {
-  console.log("Element: ", questionElement.innerHTML);
   resetState();
   const currentQuestion = await quizData[0][currentQuestionIndex];
   updateURLWithQuestionId(currentQuestion.id);
