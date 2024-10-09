@@ -1,3 +1,6 @@
+const DEPLOYED_URL = "https://alx-quiz-app.onrender.com";
+let LOCAL_URL = "http://127.0.0.1:5000";
+
 document.addEventListener("DOMContentLoaded", async () => {
   lucide.createIcons();
   await getGoogleSignIn();
@@ -9,7 +12,7 @@ let userId = "";
 const user = document.getElementById("username");
 async function loadUser() {
   try {
-    const response = await fetch("http://127.0.0.1:5000/api/v1/user/", {
+    const response = await fetch(`${DEPLOYED_URL}/api/v1/user/`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -73,7 +76,7 @@ function showLastQuiz(event) {
 async function logOut(event) {
   event.preventDefault();
   try {
-    const response = await fetch("http://127.0.0.1:5000/api/v1/user/logout", {
+    const response = await fetch(`${DEPLOYED_URL}/api/v1/user/logout`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -130,7 +133,7 @@ async function getGoogleSignIn() {
     // loadQuizHistory(result.data.quizHistory);
 
     const response = await fetch(
-      "http://127.0.0.1:5000/api/v1/user/google/register",
+      `${DEPLOYED_URL}/api/v1/user/google/register`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -144,17 +147,14 @@ async function getGoogleSignIn() {
     );
     const result = await response.json();
     if (result.msg) {
-      const response = await fetch(
-        "http://127.0.0.1:5000/api/v1/user/google/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email,
-          }),
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${DEPLOYED_URL}/api/v1/user/google/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+        }),
+        credentials: "include",
+      });
       const result = await response.json();
       if (!result.data) {
         window.location.href = "../index.html";
