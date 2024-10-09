@@ -1,3 +1,6 @@
+const DEPLOYED_URL = "https://alx-quiz-app.onrender.com";
+let LOCAL_URL = "http://127.0.0.1:5000";
+
 const clientId =
   "927889267460-lpv6m59dtuknfsbij1ivrgrhtfc6l923.apps.googleusercontent.com";
 function isValidEmail(email) {
@@ -31,15 +34,12 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       } else {
         try {
-          const response = await fetch(
-            "http://127.0.0.1:5000/api/v1/user/login",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ email, password }),
-              credentials: "include",
-            }
-          );
+          const response = await fetch(`${DEPLOYED_URL}/api/v1/user/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+            credentials: "include",
+          });
           const result = await response.json();
           if (result.data) {
             window.location.href = "./components/profile.html";
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("In response: ", response);
     const id_token = response.credential;
 
-    fetch("http://127.0.0.1:5000/api/v1/user/google", {
+    fetch(`${DEPLOYED_URL}/api/v1/user/google`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
