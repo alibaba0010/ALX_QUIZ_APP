@@ -46,6 +46,10 @@ install Live Server extensions in your code editor
 
 ## Screenshots <a name = "images"></a>
 
+![](./images/auth.png)
+![](./images/profile.png)
+![](./images/loading.png)
+![](./images/quiz.png)
 ![](./images/highest.png)
 ![](./images/multiple.png)
 ![](./images/show-quiz.png)
