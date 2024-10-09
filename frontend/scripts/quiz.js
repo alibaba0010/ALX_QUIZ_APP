@@ -7,6 +7,9 @@ let currentScore = 0;
 let currentQuestionIndex = 0;
 let previouslySelectedButton = null;
 
+const DEPLOYED_URL = "https://alx-quiz-app.onrender.com";
+let LOCAL_URL = "http://127.0.0.1:5000";
+
 const loadingElement = document.getElementById("loading"); //2
 const quizContainer = document.getElementById("quiz-container"); //3
 
@@ -31,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const loadQuiz = async () => {
   try {
-    const response = await fetch("http://127.0.0.1:5000/api/v1/user/quiz", {
+    const response = await fetch(`${DEPLOYED_URL}/api/v1/user/quiz`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -333,7 +336,7 @@ async function saveScore(result) {
   const pastResults = await getScore();
   multiple_correct_answer.style.display = "block";
   if (result > pastResults.score) {
-    const response = await fetch("http://127.0.0.1:5000/api/v1/user/result", {
+    const response = await fetch(`${DEPLOYED_URL}/api/v1/user/result`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -352,7 +355,7 @@ async function saveScore(result) {
   }
 }
 async function getScore() {
-  const response = await fetch("http://127.0.0.1:5000/api/v1/user/result", {
+  const response = await fetch(`${DEPLOYED_URL}/api/v1/user/result`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
