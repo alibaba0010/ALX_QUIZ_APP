@@ -1,5 +1,6 @@
-const DEPLOYED_URL = "https://alx-quiz-app.onrender.com";
-let LOCAL_URL = "http://127.0.0.1:5000";
+// let DEPLOYED_URL = "https://alx-quiz-app.onrender.com";
+// let LOCAL_URL = "http://127.0.0.1:5000";
+console.log(`${DEPLOYED_URL} with ${LOCAL_URL}`);
 document.addEventListener("DOMContentLoaded", () => {
   lucide.createIcons();
   loadUser();
