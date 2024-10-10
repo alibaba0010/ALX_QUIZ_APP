@@ -20,6 +20,7 @@ app
   .use(json())
   .use(
     cookieSession({
+      httpOnly: true,
       signed: false,
       secure: false, //process.env.NODE_ENV !== "test"
       maxAge: 24 * 60 * 60 * 5000,
