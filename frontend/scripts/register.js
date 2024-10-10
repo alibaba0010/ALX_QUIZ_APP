@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Passwords do not match");
       } else {
         try {
-          const response = await fetch(`${DEPLOYED_URL}/api/v1/user/register`, {
+          const response = await fetch(`${LOCAL_URL}/api/v1/user/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

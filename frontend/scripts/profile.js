@@ -12,7 +12,7 @@ let userId = "";
 const user = document.getElementById("username");
 async function loadUser() {
   try {
-    const response = await fetch(`${DEPLOYED_URL}/api/v1/user/`, {
+    const response = await fetch(`${LOCAL_URL}/api/v1/user/`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -76,7 +76,7 @@ function showLastQuiz(event) {
 async function logOut(event) {
   event.preventDefault();
   try {
-    const response = await fetch(`${DEPLOYED_URL}/api/v1/user/logout`, {
+    const response = await fetch(`${LOCAL_URL}/api/v1/user/logout`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -132,22 +132,19 @@ async function getGoogleSignIn() {
     profilePicture.alt = `${username}'s profile picture`;
     // loadQuizHistory(result.data.quizHistory);
 
-    const response = await fetch(
-      `${DEPLOYED_URL}/api/v1/user/google/register`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username,
-          email,
-          picture,
-        }),
-        credentials: "include",
-      }
-    );
+    const response = await fetch(`${LOCAL_URL}/api/v1/user/google/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username,
+        email,
+        picture,
+      }),
+      credentials: "include",
+    });
     const result = await response.json();
     if (result.msg) {
-      const response = await fetch(`${DEPLOYED_URL}/api/v1/user/google/login`, {
+      const response = await fetch(`${LOCAL_URL}/api/v1/user/google/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

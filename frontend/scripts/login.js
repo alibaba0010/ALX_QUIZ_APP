@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       } else {
         try {
-          const response = await fetch(`${DEPLOYED_URL}/api/v1/user/login`, {
+          const response = await fetch(`${LOCAL_URL}/api/v1/user/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("In response: ", response);
     const id_token = response.credential;
 
-    fetch(`${DEPLOYED_URL}/api/v1/user/google`, {
+    fetch(`${LOCAL_URL}/api/v1/user/google`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

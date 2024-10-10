@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const profilePicture = document.getElementById("profile-pic");
 async function loadUser() {
   try {
-    const response = await fetch(`${DEPLOYED_URL}/api/v1/user/`, {
+    const response = await fetch(`${LOCAL_URL}/api/v1/user/`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",

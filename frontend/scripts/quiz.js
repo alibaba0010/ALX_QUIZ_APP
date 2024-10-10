@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const loadQuiz = async () => {
   try {
-    const response = await fetch(`${DEPLOYED_URL}/api/v1/user/quiz`, {
+    const response = await fetch(`${LOCAL_URL}/api/v1/user/quiz`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -336,7 +336,7 @@ async function saveScore(result) {
   const pastResults = await getScore();
   multiple_correct_answer.style.display = "block";
   if (result > pastResults.score) {
-    const response = await fetch(`${DEPLOYED_URL}/api/v1/user/result`, {
+    const response = await fetch(`${LOCAL_URL}/api/v1/user/result`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -355,7 +355,7 @@ async function saveScore(result) {
   }
 }
 async function getScore() {
-  const response = await fetch(`${DEPLOYED_URL}/api/v1/user/result`, {
+  const response = await fetch(`${LOCAL_URL}/api/v1/user/result`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
