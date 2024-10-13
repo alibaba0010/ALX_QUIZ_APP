@@ -1,63 +1,70 @@
-<h1 align="center">Quiz Web Application</h1>
+# Getting Started with Create React App
 
-<div align="center">
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-[![Status](https://img.shields.io/badge/status-active-success.svg)]()
-[![GitHub Issues](https://img.shields.io/github/issues/kylelobo/The-Documentation-Compendium.svg)](https://github.com/alibaba0010/authentication-and-authorisation-with-expressjs/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/kylelobo/The-Documentation-Compendium/pulls)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
+## Available Scripts
 
-</div>
+In the project directory, you can run:
 
-## 📝 Table of Contents
+### `npm start`
 
-- [About](#about)
-- [Getting Started](#getting_started)
-- [Screenshots](#images)
-- [Authors](#authors)
-- [Acknowledgments](#acknowledgement)
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## 🏁 About <a name = "about"></a>
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-This project aims to develop an engaging and interactive quiz application that provides users with a challenging and educational experience. The application will feature both single and multiple-choice questions across different subjects or topics, allowing users to test their knowledge and learn new information. To enhance the user experience, the application will incorporate scoring mechanics to track progress and provide incentives for continued participation. Additionally, time limits will be implemented to add an element of excitement and challenge, encouraging users to think quickly and strategically. To provide immediate feedback and enhance the learning process, the application will offer clear and informative responses to each question, highlighting correct answers and explaining incorrect choices.
+### `npm test`
 
-## 🏁 Getting Started <a name = "getting_started"></a>
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-1. Ensure you have Node.js installed.
-2. Create a free [Mongo Atlas](https://www.mongodb.com/atlas/database) database online or start a local MongoDB database.
-3. Create a `server/.env` file with the properties specified in config.js file in services directory and add to the ".env" file.
+### `npm run build`
 
-```sh
-In the terminal,
-cd server
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-# Install dependencies
-npm install
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-## Running the Project
-In the terminal, run:
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-npm run start-server
+### `npm run eject`
 
-install Live Server extensions in your code editor
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
- Open the index.html in "./frontend" folder using live server
-```
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-## Screenshots <a name = "images"></a>
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-![](./images/auth.png)
-![](./images/profile.png)
-![](./images/loading.png)
-![](./images/quiz.png)
-![](./images/highest.png)
-![](./images/multiple.png)
-![](./images/show-quiz.png)
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## ✍️ Authors <a name = "authors"></a>
+## Learn More
 
-- [@alibaba](https://github.com/alibaba0010) - Idea & Initial work
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-## 🎉 Acknowledgements <a name = "acknowledgement"></a>
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-- [Stackup](https://intranet.alxswe.com/)
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
