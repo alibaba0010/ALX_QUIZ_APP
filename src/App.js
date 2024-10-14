@@ -1,8 +1,8 @@
 import "./App.css";
-import LoginForm from "./components/LoginForm";
+import LoginForm from "./pages/LoginForm";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Register from "./components/registerForm";
-import UserProfile from "./components/profile";
+import Register from "./pages/registerForm";
+import UserProfile from "./pages/Profile";
 
 const App = () => {
   return (
