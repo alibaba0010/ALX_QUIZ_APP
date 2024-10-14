@@ -17,7 +17,6 @@ function LoginForm() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -49,7 +48,6 @@ function LoginForm() {
     }
     const result = await loginUser(trimmedEmail, trimmedPassword);
     if (result.data) {
-      setIsLoggedIn(true);
       return navigate("/profile");
     } else {
       alert(result.msg);
