@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 import {
   Typography,
   Container,
@@ -13,21 +12,11 @@ import {
   CardContent,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { loadUser } from "../hooks/requests";
 function UserProfile() {
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
-  const [token, setToken] = useState(null);
-  const [axiosInstance, setAxiosInstance] = useState(null);
 
-  useEffect(() => {
-    // Check if token exists in localStorage on component mount
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setToken(storedToken);
-    }
-  }, []);
   useEffect(() => {
     loadUser();
   }, []);
