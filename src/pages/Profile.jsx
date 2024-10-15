@@ -27,11 +27,12 @@ function UserProfile() {
         setUsername(username);
       } else {
         localStorage.removeItem("profile");
+        navigate("/");
       }
     };
 
     fetchUser();
-  }, []);
+  }, [navigate]);
   const handleStartQuiz = () => {
     clearLocalStorage();
     navigate("/quiz");

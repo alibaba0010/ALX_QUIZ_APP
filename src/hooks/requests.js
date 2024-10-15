@@ -46,6 +46,6 @@ export const loadUser = async () => {
 
     return result;
   } catch (error) {
-    alert("Error loading user data");
+    alert("Login Again");
   }
 };
