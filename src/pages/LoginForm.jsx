@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   TextField,
   Button,
@@ -17,6 +17,13 @@ function LoginForm() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("profile"));
+    if (user) {
+      navigate("/profile");
+    }
+  }, [navigate]);
 
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,7 +55,8 @@ function LoginForm() {
     }
     const result = await loginUser(trimmedEmail, trimmedPassword);
     if (result.data) {
-      return navigate("/profile");
+      localStorage.setItem("profile", JSON.stringify(result.data));
+      navigate("/profile");
     } else {
       alert(result.msg);
     }
@@ -135,4 +143,5 @@ function LoginForm() {
     </Container>
   );
 }
+
 export default LoginForm;

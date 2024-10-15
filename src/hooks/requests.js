@@ -33,8 +33,7 @@ export const loginUser = async (email, password) => {
     const result = await response.data;
     return result;
   } catch (error) {
-    console.error("Login failed:", error);
-    throw error;
+    alert("Login failed:");
   }
 };
 export const loadUser = async () => {
@@ -44,8 +43,9 @@ export const loadUser = async () => {
       withCredentials: true,
     });
     const result = await response.data;
+
     return result;
   } catch (error) {
-    console.error("Error loading user data:", error);
+    alert("Error loading user data");
   }
 };

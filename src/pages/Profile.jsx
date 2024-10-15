@@ -18,9 +18,20 @@ function UserProfile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    loadUser();
-  }, []);
+    const fetchUser = async () => {
+      const userData = await loadUser();
+      if (userData) {
+        localStorage.setItem("profile", JSON.stringify({ ...userData?.data }));
 
+        const { username } = userData.data;
+        setUsername(username);
+      } else {
+        localStorage.removeItem("profile");
+      }
+    };
+
+    fetchUser();
+  }, []);
   const handleStartQuiz = () => {
     clearLocalStorage();
     navigate("/quiz");
